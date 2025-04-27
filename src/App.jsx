@@ -4,7 +4,6 @@ import Feed from "./Components/Feed";
 import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import HomePage from "./Components/HomePage";
-import Signup from "./Components/Signup";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore"
 
@@ -17,7 +16,6 @@ const App = () => {
             <Route index element={<HomePage />} />
             <Route path="/feed" element={<Feed />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
-            <Route path="/signup" element={<Signup />}></Route>
             <Route path="/login" element={<Login />}></Route>
           </Route>
         </Routes>

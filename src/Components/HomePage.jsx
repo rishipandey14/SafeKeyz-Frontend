@@ -12,12 +12,13 @@ const HomePage = () => {
         </p>
         <div className='flex flex-col md:flex-row items-center justify-center gap-4 mt-6'>
           <Link 
-            to={"/signup"}
+            to="/login"
+            state={{isLoginForm : false}}
             className='bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition'
           >
             Get Started
           </Link>
-          <Link to={"/login"} className='text-purple-400 hover:underline'>Already have an account?</Link>
+          <Link to="/login" state={{isLoginForm : true}} className='text-purple-400 hover:underline'>Already have an account?</Link>
         </div>
       </div>
     </div>

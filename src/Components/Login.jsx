@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
+import { showToast } from "../utils/toastSlice";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("rishi@gmail.com");
@@ -32,7 +33,7 @@ const Login = () => {
         }
       );
       dispatch(addUser(res?.data?.data));
-      // dispatch(showToast("Account created Successfully"));
+      dispatch(showToast("Logged in Successfully"));
       navigate("/feed");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
@@ -54,7 +55,7 @@ const Login = () => {
         }
       );
       dispatch(addUser(res?.data?.data));
-      // dispatch(showToast("Account created Successfully"));
+      dispatch(showToast("Account created Successfully"));
       navigate("/profile");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");

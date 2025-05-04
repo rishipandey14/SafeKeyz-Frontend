@@ -2,13 +2,19 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { handleLogout } from "../utils/handleLogout";
 import { useDispatch, useSelector } from "react-redux";
+import { resetFeedState } from "../utils/feedSlice";
+import { resetUserState } from "../utils/userSlice";
 
 const NavBar = () => {
-  const user = useSelector((store) => store.user);
+  const user = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onLogoutClick = () => handleLogout(dispatch, navigate);
+  const onLogoutClick = () => {
+    handleLogout(dispatch, navigate);
+    dispatch(resetFeedState());
+    dispatch(resetUserState());
+  };
 
   return (
     <nav className="navbar bg-base-300 shadow-sm px-4">

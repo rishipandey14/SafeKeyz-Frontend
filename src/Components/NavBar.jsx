@@ -24,6 +24,9 @@ const NavBar = () => {
         </Link>
         <div className="flex items-center gap-6">
           <div className="flex gap-6 text-sm font-medium">
+            {user && (<Link to="/feed" className="hover:text-secondary transition">
+              Feed
+            </Link>)}
             <Link to="/about" className="hover:text-secondary transition">
               About Us
             </Link>

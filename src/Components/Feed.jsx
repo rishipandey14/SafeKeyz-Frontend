@@ -4,6 +4,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addDataInFeed } from "../utils/feedSlice";
 import FeedCategory from "./FeedCategory";
+import {showToast} from "../utils/toastSlice";
 
 const categoryGroups = {
   loginCredentials: {
@@ -49,6 +50,20 @@ const Feed = () => {
     }
   };
 
+  const handleEdit = (item) => {
+    console.log("Edit Clicked for" , item);
+  }
+
+  const handleDelete = async (itemId) => {
+    try {
+      await axios.delete(`${BASE_URL}/feed/${itemId}`, {withCredentials: true});
+      dispatch(showToast("deleted Successfully"));
+      fetchFeed();
+    } catch (err) {
+      console.error("delete Failed", err)
+    }
+  }
+
   const groupFeedsByCategory = (feeds) => {
     const groups = {};
 
@@ -90,6 +105,8 @@ const Feed = () => {
             key={key}
             displayName={group.displayName}
             items={group.items}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
           />
         ))}
       </div>

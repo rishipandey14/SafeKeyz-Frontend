@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 const FeedCard = ({ item, onEdit, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [copiedKey, setCopiedKey] = useState(null);
+  const contentRef = useRef(null);
 
   const toggleDetails = () => setIsOpen((prev) => !prev);
 
@@ -10,7 +11,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
     try {
       await navigator.clipboard.writeText(value);
       setCopiedKey(key);
-      setTimeout(() => setCopiedKey(null), 1500); // clear after 1.5s
+      setTimeout(() => setCopiedKey(null), 8500);
     } catch (err) {
       console.error("Copy failed", err);
     }
@@ -18,53 +19,68 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
 
   return (
     <div
-      className="p-3 border rounded-md bg-gray-100 cursor-pointer"
-      onClick={toggleDetails}
+      className={`p-4 border rounded-lg bg-white shadow-sm hover:bg-gray-200 transition-all duration-300 ${
+        isOpen ? "ring-2 ring-purple-300" : ""
+      }`}
     >
-      <h3 className="font-bold text-black">{item.title}</h3>
+      <h3
+        className="font-semibold text-lg text-gray-900 cursor-pointer"
+        onClick={toggleDetails}
+      >
+        {item.title}
+      </h3>
 
-      {isOpen && (
-        <>
-          <div className="mt-2 text-sm text-gray-800 space-y-1">
+      <div
+        ref={contentRef}
+        className={`overflow-hidden transition-all duration-400 ease-in-out`}
+        style={{
+          maxHeight: isOpen ? `${contentRef.current?.scrollHeight}px` : "0px",
+        }}
+      >
+        <div className="mt-3 space-y-2">
+          <div className="space-y-2 text-sm text-gray-700">
             {Object.entries(item.data).map(([key, value]) => (
-              <div key={key} className="flex items-center">
-                <span className="font-semibold mr-2">{key}:</span>
-                <span className="mr-2 break-all">{value}</span>
+              <div key={key} className="flex items-start gap-2">
+                <span className="font-medium capitalize text-gray-800">
+                  {key}:
+                </span>
+                <span className="break-all">{value}</span>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     handleCopy(value, key);
                   }}
-                  className="text-xs text-blue-600 hover:underline"
+                  className="ml-auto text-s text-purple-600 hover:text-purple-800 transition-colors cursor-pointer"
                   title="Copy to clipboard"
                 >
-                  {copiedKey === key ? "Copied!" : "📋"}
+                  {copiedKey === key ? "✓ Copied" : "📋"}
                 </button>
               </div>
             ))}
           </div>
-          <div className="mt-2 flex gap-3">
+
+          <div className="mt-3 flex gap-4">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onEdit(item);
               }}
-              className="text-blue-600 hover:underline text-sm"
+              className="text-sm text-blue-600 cursor-pointer"
             >
-              Edit
+              ✏️ Edit
             </button>
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete(item._id);
               }}
-              className="text-red-600 hover:underline text-sm"
+              className="text-sm text-red-600 cursor-pointer"
             >
-              Delete
+              🗑️ Delete
             </button>
           </div>
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 };

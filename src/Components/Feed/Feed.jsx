@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 import { useDispatch } from "react-redux";
-import { addDataInFeed } from "../utils/feedSlice";
+import { addDataInFeed } from "../../utils/feedSlice";
 import FeedCategory from "./FeedCategory";
-import { showToast } from "../utils/toastSlice";
+import { showToast } from "../../utils/toastSlice";
 
 const categoryGroups = {
   loginCredentials: {
@@ -96,6 +96,7 @@ const Feed = () => {
   };
 
   const handleDelete = async (itemId) => {
+    
     try {
       await axios.delete(`${BASE_URL}/feed/${itemId}`, {
         withCredentials: true,

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Body from "./Components/Body";
-import Feed from "./Components/Feed";
+import Feed from "./Components/Feed/Feed";
 import Login from "./Components/Login";
 import Profile from "./Components/Profile";
 import HomePage from "./Components/HomePage";

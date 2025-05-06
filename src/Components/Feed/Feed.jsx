@@ -68,6 +68,19 @@ const Feed = () => {
     }
   };
 
+  const handleEdit = async (updatedItem) => {
+    try {
+      await axios.patch(`${BASE_URL}/feed/${updatedItem._id}`, updatedItem, {
+        withCredentials: true,
+      });
+      dispatch(showToast("Feed updated successfully"));
+      fetchFeed(); // Refresh
+    } catch (err) {
+      console.error("Update failed", err);
+      dispatch(showToast("Failed to update data"));
+    }
+  }
+
   useEffect(() => {
     fetchFeed();
   }, []);
@@ -92,7 +105,7 @@ const Feed = () => {
             key={key}
             displayName={group.displayName}
             items={group.items}
-            onEdit={() => {}}
+            onEdit={handleEdit}
             onDelete={handleDelete}
           />
         ))}

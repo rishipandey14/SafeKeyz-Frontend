@@ -37,7 +37,7 @@ const NavBar = () => {
               Docs
             </Link>
             <a
-              href="https://github.com/"
+              href="https://github.com/rishipandey14/SafeKeyz"
               className="hover:text-secondary transition"
             >
               GitHub

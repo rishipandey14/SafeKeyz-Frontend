@@ -78,7 +78,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
                       className="ml-auto text-s text-purple-600 hover:text-purple-800 transition-colors cursor-pointer"
                       title="Copy to clipboard"
                     >
-                      {copiedKey === key ? "✓ Copied" : "📋"}
+                      {copiedKey === key ? "✓" : "📋"}
                     </button>
                   </>
                 )}

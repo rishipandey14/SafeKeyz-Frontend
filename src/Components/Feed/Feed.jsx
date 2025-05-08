@@ -93,7 +93,7 @@ const Feed = () => {
       <div className="mb-6">
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-blue-500 text-gray-200 px-4 py-2 rounded-md hover:bg-blue-600 transition"
+          className="bg-blue-500 text-gray-200 px-4 py-2 rounded-md hover:bg-blue-600 transition cursor-pointer"
         >
           {showForm ? "Close" : "➕ Add Data"}
         </button>

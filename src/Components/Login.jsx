@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
@@ -70,6 +70,10 @@ const Login = () => {
       await handleSignup();
     }
   };
+
+  useEffect(() => {
+    if (userData) navigate("/feed");
+  }, [userData, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black px-4 py-12">

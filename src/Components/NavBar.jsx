@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import {handleLogout} from "../utils/handleLogout";
 import { resetFeedState } from "../utils/feedSlice";
 import { resetUserState } from "../utils/userSlice";
+import LogoutPopup from './LogoutPopup';
 
 const Navbar = () => {
   const user = useSelector((store) => store?.user?.user);
+  const [showPopup, setShowPopup] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-black shadow-md py-4 px-6 border-b border-gray-800 z-50">
+    <header className="fixed top-0 left-0 right-0 bg-black shadow-sm shadow-gray-300 py-4 px-6 border-b border-gray-800 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -120,7 +122,7 @@ const Navbar = () => {
                     to="/profile"
                     className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200"
                   >
-                    <i className="fas fa-user"></i> Profile
+                    Profile
                   </Link>
                 </li>
                 <li>
@@ -128,23 +130,31 @@ const Navbar = () => {
                     to="/settings"
                     className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200"
                   >
-                    <i className="fas fa-cog"></i> Settings
+                    Settings
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    to="/"
-                    onClick={onLogoutClick}
-                    className="flex items-center gap-2 hover:bg-error hover:text-black rounded-lg px-3 py-2 transition duration-200"
+                  <button
+                    onClick={() => setShowPopup(true)}
+                    className="flex items-center gap-2 hover:bg-error hover:text-black rounded-lg px-3 py-2 transition duration-200 w-full text-left"
                   >
-                    <i className="fas fa-sign-out-alt"></i> Logout
-                  </Link>
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>
           )}
         </div>
       </div>
+      {showPopup && (
+        <LogoutPopup
+          onConfirm={async () => {
+            await onLogoutClick();
+            setShowPopup(false);
+          }}
+          onCancel={() => setShowPopup(false)}
+        />
+      )}
     </header>
   );
 };

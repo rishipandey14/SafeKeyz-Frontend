@@ -1,14 +1,9 @@
-import React from "react";
+import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal footer-center bg-base-300 text-base-content p-4">
-      <aside>
-        <p>
-          Copyright © {new Date().getFullYear()} - All right reserved by
-          SafeKeyz
-        </p>
-      </aside>
+    <footer className="bg-black text-gray-400 text-sm py-6 text-center border-t border-gray-800">
+      &copy; {new Date().getFullYear()} SafeKeyz. All rights reserved.
     </footer>
   );
 };

@@ -87,15 +87,19 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 px-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Your Feeds</h1>
+    <div className="max-w-4xl mx-auto mt-10 px-4 text-gray-300 ">
+      <h1 className="text-3xl font-bold mb-6 text-center text-white bg-gray-500 rounded-xl">Your Feed</h1>
 
       <div className="mb-6">
         <button
           onClick={() => setShowForm(!showForm)}
+          className= {`bg-green-200 cursor-pointer text-green-700 font-semibold px-4 py-2 rounded-md hover:bg-green-300 transition shadow 
+            ${showForm 
+              ? 'bg-red-200 hover:bg-red-300 text-red-700'
+              : 'bg-green-200 hover:bg-green-300 text-green-700'}`}
           className="bg-blue-500 text-gray-200 px-4 py-2 rounded-md hover:bg-blue-600 transition cursor-pointer"
         >
-          {showForm ? "Close" : "➕ Add Data"}
+          {showForm ? "Close" : "Add Data"}
         </button>
         {showForm && <AddFeedForm onFeedAdded={fetchFeed} />}
       </div>

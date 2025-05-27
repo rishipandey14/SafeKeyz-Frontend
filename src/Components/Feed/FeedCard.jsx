@@ -8,6 +8,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
   const contentRef = useRef(null);
 
   const toggleDetails = () => setIsOpen((prev) => !prev);
+  
 
   const handleCopy = async (value, key) => {
     try {
@@ -31,12 +32,12 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
 
   return (
     <div
-      className={`p-4 border rounded-lg bg-gray-100 shadow-sm hover:bg-white transition-all duration-300 ${
-        isOpen ? "ring-2 ring-purple-300" : ""
+      className={`p-4 rounded-xl bg-gray-600 border text-white border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${
+        isOpen ? "ring-1 ring-green-500" : ""
       }`}
     >
       <h3
-        className="font-semibold text-lg text-gray-900 cursor-pointer"
+        className="font-semibold text-lg cursor-pointer text-green-200 hover:text-green-300 transition"
         onClick={toggleDetails}
       >
         {item.title}
@@ -44,7 +45,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
 
       <div
         ref={contentRef}
-        className={`overflow-hidden transition-all duration-400 ease-in-out`}
+        className="overflow-hidden transition-all duration-400 ease-in-out"
         style={{
           maxHeight: isEditing
             ? "none"
@@ -53,40 +54,36 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
             : "0px",
         }}
       >
-        <div className="mt-3 space-y-2">
-          <div className="space-y-2 text-sm text-gray-700">
-            {Object.entries(item.data).map(([key, value]) => (
-              <div key={key} className="flex items-start gap-2">
-                <span className="font-medium capitalize text-gray-800 w-24 shrink-0">
-                  {key}:
-                </span>
-                {isEditing ? (
-                  <input
-                    type="text"
-                    value={editedData[key]}
-                    onChange={(e) => handleInputChange(key, e.target.value)}
-                    className="border px-2 py-1 rounded w-full"
-                  />
-                ) : (
-                  <>
-                    <span className="break-all">{value}</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCopy(value, key);
-                      }}
-                      className="ml-auto text-s text-purple-600 hover:text-purple-800 transition-colors cursor-pointer"
-                      title="Copy to clipboard"
-                    >
-                      {copiedKey === key ? "✓" : "📋"}
-                    </button>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
+        <div className="mt-3 space-y-3 text-sm">
+          {Object.entries(item.data).map(([key, value]) => (
+            <div key={key} className="flex items-start gap-3">
+              <span className="font-medium capitalize text-gray-400 w-24 shrink-0">{key}:</span>
 
-          <div className="mt-3 flex gap-4">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedData[key]}
+                  onChange={(e) => handleInputChange(key, e.target.value)}
+                  className="bg-gray-900 text-white border border-gray-700 px-2 py-1 rounded w-full"
+                />
+              ) : (
+                <>
+                  <span className="break-all">{value}</span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCopy(value, key);
+                    }}
+                    className="ml-auto text-purple-400 hover:text-purple-300 transition-colors"
+                  >
+                    {copiedKey === key ? "✓" : "📋"}
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
+
+          <div className="mt-4 flex gap-4 text-sm">
             {isEditing ? (
               <>
                 <button
@@ -94,7 +91,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
                     e.stopPropagation();
                     handleSave();
                   }}
-                  className="text-sm text-green-600 cursor-pointer"
+                  className="text-green-400 hover:text-green-300"
                 >
                   ✅ Save
                 </button>
@@ -102,9 +99,9 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsEditing(false);
-                    setEditedData({ ...item.data }); // Reset
+                    setEditedData({ ...item.data });
                   }}
-                  className="text-sm text-gray-600 cursor-pointer"
+                  className="text-gray-400 hover:text-gray-300"
                 >
                   ❌ Cancel
                 </button>
@@ -116,7 +113,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
                     e.stopPropagation();
                     setIsEditing(true);
                   }}
-                  className="text-sm text-blue-600 cursor-pointer"
+                  className="text-blue-400 hover:text-blue-300"
                 >
                   ✏️ Edit
                 </button>
@@ -125,7 +122,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
                     e.stopPropagation();
                     onDelete(item._id);
                   }}
-                  className="text-sm text-red-600 cursor-pointer"
+                  className="text-red-400 hover:text-red-300"
                 >
                   🗑️ Delete
                 </button>
@@ -135,6 +132,7 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
         </div>
       </div>
     </div>
+
   );
 };
 

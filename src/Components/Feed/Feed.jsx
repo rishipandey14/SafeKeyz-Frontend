@@ -97,6 +97,7 @@ const Feed = () => {
             ${showForm 
               ? 'bg-red-200 hover:bg-red-300 text-red-700'
               : 'bg-green-200 hover:bg-green-300 text-green-700'}`}
+          className="bg-blue-500 text-gray-200 px-4 py-2 rounded-md hover:bg-blue-600 transition cursor-pointer"
         >
           {showForm ? "Close" : "Add Data"}
         </button>

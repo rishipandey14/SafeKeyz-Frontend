@@ -71,7 +71,6 @@ const AddFeedForm = ({ onFeedAdded }) => {
             placeholder="Enter title"
             className="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           />
-
           {/* Dynamic category-specific fields */}
           {categoryFields[selectedCategory]?.map((field) => (
             <input

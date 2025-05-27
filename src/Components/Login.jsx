@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
 import { showToast } from "../utils/toastSlice";
@@ -20,55 +20,49 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (userData) return;
+    
+    // Basic validation before sending API call
+    if (!emailId.trim() || !password.trim()) {
+      setError("Please enter both email and password.");
+      return;
+    }
 
     try {
-      const res = await axios.post(
-        BASE_URL + "/login",
-        {
-          emailId,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(BASE_URL + "/login", { emailId, password }, { withCredentials: true });
       dispatch(addUser(res?.data?.data));
       dispatch(showToast("Logged in Successfully"));
       navigate("/feed");
     } catch (err) {
-      setError(err?.response?.data || "Something went wrong");
+      setError(err?.response?.data?.error || err?.response?.data?.message || "Something went wrong");
     }
   };
 
   const handleSignup = async () => {
+    // Basic validation
+    if (
+      !firstName.trim() ||
+      !lastName.trim() ||
+      !emailId.trim() ||
+      !password.trim()
+    ) {
+      setError("Please fill all fields before signing up.");
+      return;
+    }
+
     try {
-      const res = await axios.post(
-        BASE_URL + "/signup",
-        {
-          firstName,
-          lastName,
-          emailId,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(BASE_URL + "/signup", { firstName, lastName, emailId, password }, { withCredentials: true });
       dispatch(addUser(res?.data?.data));
       dispatch(showToast("Account created Successfully"));
       navigate("/profile");
     } catch (err) {
-      setError(err?.response?.data || "Something went wrong");
+      setError(err?.response?.data?.error || err?.response?.data?.message || "Something went wrong");
     }
   };
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault(); // Prevent form from reloading the page
-    if (isLoginForm) {
-      await handleLogin();
-    } else {
-      await handleSignup();
-    }
+    e.preventDefault();
+    if (isLoginForm) await handleLogin();
+    else await handleSignup();
   };
 
   useEffect(() => {
@@ -76,104 +70,78 @@ const Login = () => {
   }, [userData, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900 to-black px-4 py-12">
-      <div className="bg-gray-900 rounded-2xl shadow-2xl p-10 w-full max-w-md text-white">
-        <h2 className="text-3xl font-extrabold text-center bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text mb-4 pb-2">
-          {isLoginForm ? "Welcome Back 🔐" : "Signup"}
+    <div className="min-h-screen flex items-center justify-center bg-black px-4 py-12">
+      <div className="bg-gray-800 text-white w-full max-w-md p-8 rounded-xl shadow-lg transition-all shadow-green-200">
+        <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
+          {isLoginForm ? "Welcome Back 🔐" : "Create Account"}
         </h2>
-        <form onSubmit={handleFormSubmit} className="space-y-6">
+
+        <form onSubmit={handleFormSubmit} className="space-y-4">
           {!isLoginForm && (
             <>
-              <div>
-                <label className="block text-sm mb-2">First name : </label>
-                <input
-                  type="text"
-                  name="first Name"
-                  autoComplete="given-name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder="Enter your first name"
-                  className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                />
-              </div>
-              <div>
-                <label className="block text-sm mb-2">Last name : </label>
-                <input
-                  type="text"
-                  name="last Name"
-                  value={lastName}
-                  autoComplete="family-name"
-                  onChange={(e) => setLastName(e.target.value)}
-                  placeholder="Enter your last name"
-                  className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="First Name"
+                value={firstName}
+                onChange={(e) =>{
+                  setFirstName(e.target.value);
+                  setError("");
+                }}
+                className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  setError("");
+                }}
+                className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+              />
             </>
           )}
-          {/* Email */}
-          <div>
-            <label className="block text-sm mb-2">Email : </label>
-            <input
-              type="email"
-              name="email"
-              value={emailId}
-              autoComplete="email"
-              onChange={(e) => setEmailId(e.target.value)}
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-            />
-          </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm mb-1">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              autoComplete={isLoginForm ? "current-password" : "new-password"}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 bg-gray-800 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-600"
-            />
-          </div>
-          {error && (
-            <p className="text-red-400 text-sm text-center mb-4">{error}</p>
-          )}
+          <input
+            type="email"
+            placeholder="Email"
+            value={emailId}
+            onChange={(e) => {
+              setEmailId(e.target.value);
+              setError("");
+            }}
+            className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+          />
 
-          {/* Login Button */}
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value)
+              setError("");
+            }}
+            className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:ring-2 focus:ring-green-500 focus:outline-none"
+          />
+
+          {error && <p className="text-sm text-red-400 text-center">{error}</p>}
+
           <button
             type="submit"
-            className="w-full py-3 bg-purple-600 hover:bg-purple-700 hover:cursor-pointer rounded-lg font-semibold transition"
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-md font-semibold transition"
           >
             {isLoginForm ? "Login" : "Signup"}
           </button>
         </form>
 
-        <p className="text-center mt-4 text-sm">
-          {isLoginForm ? (
-            <>
-              New User?{" "}
-              <span
-                className="text-purple-400 hover:underline cursor-pointer"
-                onClick={() => setIsLoginForm(false)}
-              >
-                Signup
-              </span>{" "}
-              here
-            </>
-          ) : (
-            <>
-              Existing User?{" "}
-              <span
-                className="text-purple-400 hover:underline cursor-pointer"
-                onClick={() => setIsLoginForm(true)}
-              >
-                Login
-              </span>{" "}
-              here
-            </>
-          )}
+        <p className="mt-6 text-sm text-center text-gray-300">
+          {isLoginForm ? "New user?" : "Already have an account?"}{" "}
+          <span
+            className="text-green-400 hover:underline cursor-pointer"
+            onClick={() => setIsLoginForm(!isLoginForm)}
+          >
+            {isLoginForm ? "Signup" : "Login"} here
+          </span>
         </p>
       </div>
     </div>

@@ -40,53 +40,59 @@ const AddFeedForm = ({ onFeedAdded }) => {
     }
   };
   return (
-    <div className="mt-4 space-y-3 bg-gray-600 p-4 rounded-md shadow">
+    <div className="mt-4 space-y-4 bg-gray-900 border border-gray-700 p-6 rounded-md shadow-lg transition-all duration-300">
+      {/* Category Selector */}
       <select
         value={selectedCategory}
         onChange={(e) => {
           setSelectedCategory(e.target.value);
           setFieldValues({});
         }}
-        className="w-full border p-2 rounded-md"
+        className="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
       >
-        <option value="" className="bg-gray-400">
-          Select category
-        </option>
+        <option value="">Select category</option>
         {Object.values(categoryGroups).flatMap((group) =>
           group.includes.map((cat) => (
-            <option key={cat} value={cat} className="bg-gray-400">
+            <option key={cat} value={cat}>
               {group.displayName} - {cat}
             </option>
           ))
         )}
       </select>
 
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Enter title"
-        className="w-full border p-2 rounded-md"
-      />
-
-      {selectedCategory &&
-        categoryFields[selectedCategory]?.map((field) => (
+      {/* Show title + fields only after category is selected */}
+      {selectedCategory && (
+        <>
+          {/* Title */}
           <input
-            key={field}
             type="text"
-            value={fieldValues[field] || ""}
-            onChange={(e) => handleInputChange(field, e.target.value)}
-            placeholder={`Enter ${field}`}
-            className="w-full border p-2 rounded-md"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter title"
+            className="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           />
-        ))}
 
-      <button
-        onClick={handleAddFeed}
-        className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
-      >
-        Submit
-      </button>
+          {/* Dynamic category-specific fields */}
+          {categoryFields[selectedCategory]?.map((field) => (
+            <input
+              key={field}
+              type="text"
+              value={fieldValues[field] || ""}
+              onChange={(e) => handleInputChange(field, e.target.value)}
+              placeholder={`Enter ${field}`}
+              className="w-full bg-gray-800 text-white border border-gray-600 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            />
+          ))}
+
+          {/* Submit Button */}
+          <button
+            onClick={handleAddFeed}
+            className="bg-green-600 hover:bg-green-500 text-white font-medium px-4 py-2 rounded-md transition shadow"
+          >
+            Submit
+          </button>
+        </>
+      )}
     </div>
   );
 };

@@ -3,11 +3,11 @@ import FeedCard from "./FeedCard";
 
 const FeedCategory = ({ displayName, items, onEdit, onDelete }) => {
   return (
-    <details className="border rounded-lg p-4 bg-gradient-to-r from-pink-600 to-purple-700 shadow-lg shadow-gray-500 transition-all duration-300 hover:shadow-lg hover:scale-[1.01]">
-      <summary className="cursor-pointer text-xl font-semibold text-gray-200 transition-colors duration-200 hover:text-gray-700">
+    <details className="border border-gray-800 rounded-xl p-4 bg-gradient-to-r from-gray-900 to-black shadow-md hover:shadow-lg transition-all duration-300">
+      <summary className="cursor-pointer text-xl font-semibold text-green-400 hover:text-white transition-colors duration-200">
         {displayName}
       </summary>
-      <div className="mt-3 space-y-2">
+      <div className="mt-4 space-y-3">
         {items.map((item) => (
           <FeedCard
             key={item._id}
@@ -18,6 +18,7 @@ const FeedCategory = ({ displayName, items, onEdit, onDelete }) => {
         ))}
       </div>
     </details>
+
   );
 };
 

@@ -20,7 +20,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-black shadow-sm shadow-gray-300 py-4 px-6 border-b border-gray-800 z-50">
+    <header className="top-0 left-0 right-0 bg-black shadow-sm shadow-gray-300 py-4 px-6 border-b border-gray-800 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2">
@@ -44,7 +44,7 @@ const Navbar = () => {
           {['Pricing', 'Personal', 'Business'].map((label, idx) => (
             <div key={idx} className="relative group">
               <div className="flex flex-col">
-                <button className="flex items-center gap-1 hover:text-green-500 transition-colors duration-200 ease-in-out cursor-pointer shadow-md px-2 py-1 rounded-md">
+                <button className="font-medium flex items-center gap-1 hover:text-green-500 transition-colors duration-200 ease-in-out cursor-pointer shadow-md px-2 py-1 rounded-md">
                   {label} <ChevronDown size={16} />
                 </button>
 
@@ -52,28 +52,28 @@ const Navbar = () => {
                 <div className="absolute top-full left-0 bg-gray-900 shadow-xl rounded-md py-2 w-44 z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200">
                   {label === 'Pricing' && (
                     <>
-                      <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="#">Free</Link>
-                      <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="#">Pro</Link>
+                      <Link className="flex items-center gap-2 font-medium  hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="#">Free</Link>
+                      <Link className="flex items-center gap-2 font-medium  hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="#">Pro</Link>
                       {user && (
-                        <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="/billing">Billing</Link>
+                        <Link className="flex items-center gap-2 font-medium  hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="/billing">Billing</Link>
                       )}
                     </>
                   )}
                   {label === 'Personal' && (
                     <>
-                      <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="/features">Features</Link>
+                      <Link className="flex items-center font-medium  gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="/features">Features</Link>
                       {user ? (
-                        <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="/account">Account</Link>
+                        <Link className="flex items-center font-medium  gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="/account">Account</Link>
                       ) : (
-                        <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="#">Support</Link>
+                        <Link className="flex font-medium  items-center gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="#">Support</Link>
                       )}
                     </>
                   )}
                   {label === 'Business' && (
                     <>
-                      <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="/enterprise">Enterprise</Link>
+                      <Link className="font-medium flex items-center gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="/enterprise">Enterprise</Link>
                       {user && (
-                        <Link className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200" to="/team">Team</Link>
+                        <Link className="font-medium flex items-center gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200" to="/team">Team</Link>
                       )}
                     </>
                   )}
@@ -83,7 +83,7 @@ const Navbar = () => {
           ))}
 
           {/* Static item */}
-          <Link className="hover:text-green-500 transition-colors duration-200 ease-in-out cursor-pointer shadow-md px-2 py-1 rounded-md" to="#">
+          <Link className="font-medium hover:text-green-500 transition-colors duration-200 ease-in-out cursor-pointer shadow-md px-2 py-1 rounded-md" to="#">
             Partners
           </Link>
         </nav>
@@ -94,7 +94,7 @@ const Navbar = () => {
             <Link
               to="/login"
               state={{ isLoginForm: true }}
-              className="bg-green-500 hover:bg-green-600 transition text-black text-sm px-4 py-2 rounded-md"
+              className="font-medium bg-green-500 hover:bg-green-600 transition text-black text-sm px-4 py-2 rounded-md"
             >
               Log in
             </Link>
@@ -120,23 +120,31 @@ const Navbar = () => {
                 <li>
                   <Link
                     to="/profile"
-                    className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200"
+                    className="flex items-center gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200"
                   >
-                    Profile
+                    My Profile
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to="/settings"
-                    className="flex items-center gap-2 hover:bg-green-600 hover:text-black rounded-lg px-3 py-2 transition duration-200"
+                    to="/editprofile"
+                    className="flex items-center gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200"
                   >
-                    Settings
+                    Edit Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/reportabug"
+                    className="flex items-center gap-2 hover:bg-green-700  rounded-lg px-3 py-2 transition duration-200"
+                  >
+                    Report a Bug
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={() => setShowPopup(true)}
-                    className="flex items-center gap-2 hover:bg-error hover:text-black rounded-lg px-3 py-2 transition duration-200 w-full text-left"
+                    className="flex items-center gap-2 hover:bg-red-800  rounded-lg px-3 py-2 transition duration-200 w-full text-left"
                   >
                     Logout
                   </button>

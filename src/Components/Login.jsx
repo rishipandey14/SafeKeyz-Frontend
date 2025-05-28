@@ -70,7 +70,7 @@ const Login = () => {
   }, [userData, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-black px-4 py-12">
+    <div className="min-h-screen flex items-center justify-center  px-4 py-12">
       <div className="bg-gray-800 text-white w-full max-w-md p-8 rounded-xl shadow-lg transition-all shadow-green-200">
         <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text">
           {isLoginForm ? "Welcome Back 🔐" : "Create Account"}

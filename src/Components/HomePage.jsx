@@ -7,7 +7,7 @@ const HomePage = () => {
     <div className="flex-grow">
       <Banner />
 
-      <section className="py-20 px-6 bg-black text-white">
+      <section className="py-20 px-6  text-white">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Take control of your digital security<br />with our password manager</h1>
           <p className="text-gray-400 mb-8 max-w-2xl mx-auto text-lg">

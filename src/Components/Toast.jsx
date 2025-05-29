@@ -23,7 +23,7 @@ const Toast = () => {
 
   return (
     <div
-      className="fixed top-6 left-1/2 z-[9999] max-w-xs w-[90vw] sm:w-auto transform -translate-x-1/2 bg-green-800 text-white px-5 py-3 rounded-lg shadow-lg flex items-center justify-between animate-fadeIn animate-duration-500"
+      className="fixed top-6 left-1/2 z-[9999] max-w-xs w-[90vw] sm:w-auto transform -translate-x-1/2 bg-gray-600 text-white px-5 py-3 rounded-lg shadow-lg flex items-center justify-between animate-fadeIn animate-duration-500"
       role="alert"
       aria-live="assertive"
     >

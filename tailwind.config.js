@@ -1,11 +1,17 @@
 /** @type {import('tailwindcss').Config} */
+import daisyui from "daisyui";
+
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}", // Adjust this if needed
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        microsoftBlue : '#0078d4',
+      },
+    },
   },
-  plugins: [import("daisyui")], // Enable DaisyUI support
+  plugins: [daisyui], // Enable DaisyUI support
 };

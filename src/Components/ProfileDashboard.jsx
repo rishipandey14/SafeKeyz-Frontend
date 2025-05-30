@@ -8,8 +8,8 @@ const ProfileDashboard = () => {
   const user = useSelector((store) => store?.user?.user);
 
   const stats = {
-    userName: "John Doe",
-    userPhoto: "/assets/user-avatar.jpeg", // Replace with your user photo URL
+    userName: user.firstName,
+    userPhoto: user.photoUrl, // Replace with your user photo URL
     passwordsSaved: 58,
     vaultSize: 1.2, // in MB
     lastLogin: "2025-05-28 10:45 AM",

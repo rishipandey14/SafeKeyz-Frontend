@@ -5,7 +5,6 @@ const LogoutPopup = ({ onConfirm, onCancel }) => {
     <div className="fixed inset-0 z-[9999] flex justify-center items-center backdrop-blur-sm bg-black/40 px-4">
       <div className="bg-gray-900 text-white rounded-2xl shadow-lg shadow-gray-400 w-full max-w-xl min-h-[250px] p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center border border-gray-700">
         
-        {/* Left Side: Image */}
         <div className="flex-shrink-0">
           <img
             src="/assets/catWithGuns.jpeg"
@@ -14,7 +13,6 @@ const LogoutPopup = ({ onConfirm, onCancel }) => {
           />
         </div>
 
-        {/* Right Side: Text and Buttons */}
         <div className="flex-1 flex flex-col justify-center items-start text-center md:text-left">
           <h2 className="text-2xl font-bold mb-2 text-white">
             Are you sure you want to <span className='flex justify-center items-center'>log out ?</span>

@@ -31,7 +31,7 @@ const ProfileDashboard = () => {
     </div>
   );
   return (
-    <div className="min-h-screen bg-gradient-to-r from-green-900 via-black to-green-900 text-white p-8 font-sans select-none">
+    <div className="min-h-screen text-white p-8 font-sans select-none">
       {/* User Card */}
       <div className="max-w-4xl mx-auto mb-12 bg-gray-900 bg-opacity-80 rounded-3xl shadow-lg flex items-center gap-6 p-6 md:p-10 border border-green-600 hover:shadow-2xl transition-shadow duration-300">
         <img

@@ -71,7 +71,7 @@ const Feed = () => {
 
   const handleEdit = async (updatedItem) => {
     try {
-      await axios.patch(`${BASE_URL}/feed/${updatedItem._id}`, updatedItem, {
+      await axios.put(`${BASE_URL}/feed/${updatedItem._id}`, updatedItem, {
         withCredentials: true,
       });
       dispatch(showToast("Feed updated successfully"));

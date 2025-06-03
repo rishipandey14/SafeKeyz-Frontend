@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { addDataInFeed } from "../../utils/feedSlice";
 import FeedCategory from "./FeedCategory";
 import { showToast } from "../../utils/toastSlice";
-import { categoryGroups } from "./FeedHelper";
+import { categoryGroups } from "./feedHelper";
 import AddFeedForm from "./AddFeedForm";
 
 const Feed = () => {

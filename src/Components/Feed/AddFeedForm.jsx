@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { categoryFields, categoryGroups } from "./FeedHelper";
+import { categoryFields, categoryGroups } from "./feedHelper";
 import { BASE_URL } from "../../utils/constants";
 import { showToast } from "../../utils/toastSlice";
 

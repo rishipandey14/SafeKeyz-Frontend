@@ -4,7 +4,7 @@ import Feed from "./Components/Feed/Feed";
 import Login from "./Components/Login";
 import HomePage from "./Components/HomePage";
 import Toast from "./Components/Toast";
-import EditProfileDashboard from "./Components/Edit Profile/EditProfileDashboard"
+import EditProfileDashboard from "./Components/Profile/EditProfileDashboard"
 import ProfileDashboard from "./Components/ProfileDashboard"
 const App = () => {
   return (

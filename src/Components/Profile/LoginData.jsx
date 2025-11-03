@@ -27,7 +27,7 @@ const LoginData = () => {
       return;
     }
     try {
-      await axios.put(BASE_URL + "/profile/password/change", {existingPassword, newPassword}, {withCredentials: true});
+      await axios.patch(BASE_URL + "/profile/password/change", {existingPassword, newPassword}, {withCredentials: true});
       dispatch(showToast("Password changed Successfully"));
       setExistingPassword('');
       setNewPassword('');

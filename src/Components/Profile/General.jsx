@@ -28,7 +28,7 @@ const General = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(BASE_URL + "/profile/edit", {
+      const res = await axios.patch(BASE_URL + "/profile/edit", {
           firstName,
           lastName,
           age,

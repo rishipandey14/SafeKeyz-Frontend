@@ -1,8 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Banner from './Banner';
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import { BASE_URL } from '../utils/constants';
 
 const HomePage = () => {
+  const [stats, setStats] = useState({
+    users: 0,
+    credentials: 0,
+    devices: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const res = await axios.get(BASE_URL + "/stats");
+        // backend returns { message, data: { usersCount, credentialsCount, deviceCount } }
+        const payload = res?.data?.data;
+        if (payload) {
+          setStats({
+            users: payload.usersCount ?? 0,
+            credentials: payload.credentialsCount ?? 0,
+            devices: payload.deviceCount ?? 0,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to get stats", err);
+      }
+    };
+    fetchStats();
+  }, []);
+
   return (
     <div className="flex-grow">
       <Banner />
@@ -24,29 +52,20 @@ const HomePage = () => {
       <section className="py-12 px-6 bg-black text-white">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="p-6 bg-gray-900 rounded-lg text-center">
-            <p className="text-3xl font-bold">350 K</p>
+            <p className="text-3xl font-bold">{stats.users}+</p>
             <p className="text-gray-400">Many people use SafeKeyz for secure their password.</p>
           </div>
           <div className="p-6 bg-gray-900 rounded-lg text-center">
-            <p className="text-3xl font-bold">98%</p>
-            <p className="text-gray-400">SafeKeyz users were saved during various fraud attempts.</p>
+            <p className="text-3xl font-bold">{stats.credentials}</p>
+            <p className="text-gray-400">Passwords safely stored and encrypted.</p>
           </div>
-          <div className="p-6 bg-gray-900 rounded-lg">
-            <p className="text-green-400 font-medium mb-2">accounts.spotify.com</p>
-            <p className="mb-2">Strong Password</p>
-            <div className="h-2 bg-green-600 rounded-full w-full"></div>
-            <p className="text-xs text-gray-400 mt-2">
-              Your password is one of the most important lines of defense against online threats.
-            </p>
+          <div className="p-6 bg-gray-900 rounded-lg text-center">
+            <p className="text-3xl font-bold">100%</p>
+            <p className="text-gray-400">Protection during fraud attempts.</p>
           </div>
-          <div className="p-6 bg-gray-900 rounded-lg">
-            <p className="font-medium mb-2">Devices</p>
-            <ul className="text-sm text-gray-300 space-y-1">
-              <li>📱 iPhone 8 - Aug 28 at 1:21 PM</li>
-              <li>📱 iPhone SE - Aug 27 at 3:55 PM</li>
-              <li>🖥 iMac - Aug 24 at 10:31 AM</li>
-              <li>🖥 Mac Studio - Aug 14 at 11:49 PM</li>
-            </ul>
+          <div className="p-6 bg-gray-900 rounded-lg text-center">
+            <p className="text-3xl font-bold">{stats.devices}</p>
+            <p className="text-gray-400">Devices synced with SafeKeyz.</p>
           </div>
         </div>
       </section>

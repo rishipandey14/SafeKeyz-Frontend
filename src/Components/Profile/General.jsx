@@ -27,11 +27,13 @@ const General = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // clear previous errors before attempting submit
+    setErrors('');
     try {
       const res = await axios.patch(BASE_URL + "/profile/edit", {
           firstName,
           lastName,
-          age,
+          age: age ? Number(age) : undefined,
           gender,
           photoUrl,
         }, {withCredentials: true});
@@ -39,6 +41,8 @@ const General = () => {
 
       if (updatedUser) {
         dispatch(addUser(updatedUser));
+        // clear any previous error message on success
+        setErrors('');
         dispatch(showToast("Profile updated successfully"));
       } else {
         throw new Error("Invalid user data returned from server");
@@ -85,9 +89,9 @@ const General = () => {
           <label htmlFor='gender' className='text-sm text-gray-300 mr-10'>Gender : </label>
           <select className='select select-bordered max-w-25' id='gender' name='gender' value={gender} onChange={(e) => setGender(e.target.value)}>
             <option value="">Select</option>
-            <option >Male</option>
-            <option>Female</option>
-            <option>Other</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Others">Others</option>
           </select>
         </div>
         {errors && (

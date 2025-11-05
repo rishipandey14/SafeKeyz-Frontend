@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import RequireAuth from "../common/RequireAuth";
 import { BASE_URL } from "../../utils/constants";
 import { useDispatch } from "react-redux";
 import { addDataInFeed } from "../../utils/feedSlice";
@@ -214,6 +215,7 @@ const Feed = () => {
   const getCategoryIcon = (key) => CATEGORY_META[key]?.icon || "�️";
 
   return (
+    <RequireAuth>
     <div className="flex h-screen bg-gray-950">
       {/* Main Section Sidebar */}
       <div 
@@ -412,6 +414,7 @@ const Feed = () => {
         </div>
       </div>
     </div>
+    </RequireAuth>
   );
 };
 

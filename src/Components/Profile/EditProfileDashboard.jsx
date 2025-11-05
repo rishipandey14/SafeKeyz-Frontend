@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import RequireAuth from '../common/RequireAuth';
 import SideBar from './SideBar';
 import General from './General';
 import Personal from './Personal';
@@ -21,6 +22,7 @@ const EditProfileDashboard = () => {
   };
 
   return (
+    <RequireAuth>
     <div className='min-h-screen bg-black text-white p-6'>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-6'>
         <div className='md:col-span-1'>
@@ -29,6 +31,7 @@ const EditProfileDashboard = () => {
         <div className='md:col-span-3'>{renderContent()}</div>
       </div>
     </div>
+    </RequireAuth>
   );
 };
 

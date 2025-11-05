@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { categoryFields } from "./feedHelper";
 
 const FeedCard = ({ item, onEdit, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +9,11 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
   const contentRef = useRef(null);
 
   const toggleDetails = () => setIsOpen((prev) => !prev);
+  
+  // Get all fields for this category
+  const getAllCategoryFields = () => {
+    return categoryFields[item.category] || [];
+  };
   
 
   const handleCopy = async (value, key) => {
@@ -55,33 +61,38 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
         }}
       >
         <div className="mt-3 space-y-3 text-sm">
-          {Object.entries(item.data).map(([key, value]) => (
-            <div key={key} className="flex items-start gap-3">
-              <span className="font-medium capitalize text-gray-400 w-24 shrink-0">{key}:</span>
-
-              {isEditing ? (
+          {isEditing ? (
+            // Show all category fields when editing
+            getAllCategoryFields().map((key) => (
+              <div key={key} className="flex items-start gap-3">
+                <span className="font-medium capitalize text-gray-400 w-24 shrink-0">{key}:</span>
                 <input
-                  type="text"
-                  value={editedData[key]}
+                  type={key.toLowerCase().includes("password") ? "password" : "text"}
+                  value={editedData[key] || ""}
                   onChange={(e) => handleInputChange(key, e.target.value)}
+                  placeholder={`Enter ${key}`}
                   className="bg-gray-900 text-white border border-gray-700 px-2 py-1 rounded w-full"
                 />
-              ) : (
-                <>
-                  <span className="break-all">{value}</span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCopy(value, key);
-                    }}
-                    className="ml-auto text-purple-400 hover:text-purple-300 transition-colors"
-                  >
-                    {copiedKey === key ? "✓" : "📋"}
-                  </button>
-                </>
-              )}
-            </div>
-          ))}
+              </div>
+            ))
+          ) : (
+            // Show only filled fields when viewing
+            Object.entries(item.data).map(([key, value]) => (
+              <div key={key} className="flex items-start gap-3">
+                <span className="font-medium capitalize text-gray-400 w-24 shrink-0">{key}:</span>
+                <span className="break-all">{value}</span>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy(value, key);
+                  }}
+                  className="ml-auto text-purple-400 hover:text-purple-300 transition-colors"
+                >
+                  {copiedKey === key ? "✓" : "📋"}
+                </button>
+              </div>
+            ))
+          )}
 
           <div className="mt-4 flex gap-4 text-sm">
             {isEditing ? (
@@ -108,24 +119,30 @@ const FeedCard = ({ item, onEdit, onDelete }) => {
               </>
             ) : (
               <>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsEditing(true);
-                  }}
-                  className="text-blue-400 hover:text-blue-300"
-                >
-                  ✏️ Edit
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(item._id);
-                  }}
-                  className="text-red-400 hover:text-red-300"
-                >
-                  🗑️ Delete
-                </button>
+                {onEdit && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsEditing(true);
+                    }}
+                    className="text-blue-400 hover:text-blue-300"
+                  >
+                    ✏️ Edit
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm("Are you sure you want to delete this item?")) {
+                        onDelete(item._id);
+                      }
+                    }}
+                    className="text-red-400 hover:text-red-300"
+                  >
+                    🗑️ Delete
+                  </button>
+                )}
               </>
             )}
           </div>

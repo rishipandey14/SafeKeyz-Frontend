@@ -45,28 +45,25 @@ const CATEGORY_META = {
 const Feed = () => {
   const dispatch = useDispatch();
   const [groupedFeeds, setGroupedFeeds] = useState({});
+  const [sharedFeeds, setSharedFeeds] = useState({}); // For shared data
+  const [mainSection, setMainSection] = useState('saved'); // 'saved' or 'shared'
   const initialCategoryKey = Object.keys(categoryGroups)[0] ?? "";
   const [selectedCategory, setSelectedCategory] = useState(initialCategoryKey);
   const [showForm, setShowForm] = useState(false);
-  const activeGroup = groupedFeeds[selectedCategory] ?? null;
+  const [isMainSidebarOpen, setIsMainSidebarOpen] = useState(true);
+  const [isCategorySidebarOpen, setIsCategorySidebarOpen] = useState(true);
+  
+  // Determine which feeds to show based on main section
+  const currentFeeds = mainSection === 'saved' ? groupedFeeds : sharedFeeds;
+  const activeGroup = currentFeeds[selectedCategory] ?? null;
   
   const totalItems = React.useMemo(
     () =>
-      Object.values(groupedFeeds).reduce(
+      Object.values(currentFeeds).reduce(
         (acc, group) => acc + (group?.items?.length ?? 0),
         0
       ),
-    [groupedFeeds]
-  );
-
-  const summaryCards = React.useMemo(
-    () =>
-      Object.keys(categoryGroups).map((key) => ({
-        key,
-        label: categoryGroups[key].displayName,
-        count: groupedFeeds[key]?.items?.length ?? 0,
-      })),
-    [groupedFeeds]
+    [currentFeeds]
   );
 
   const activeMeta = CATEGORY_META[selectedCategory] || CATEGORY_META.others;
@@ -81,6 +78,22 @@ const Feed = () => {
       const feeds = res?.data?.feeds;
       dispatch(addDataInFeed(feeds));
       groupFeedsByCategory(feeds);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchSharedFeed = async () => {
+    try {
+      // TODO: Replace with actual shared feed API endpoint
+      // const res = await axios.get(BASE_URL + "/feed/shared", {
+      //   withCredentials: true,
+      // });
+      // const feeds = res?.data?.feeds;
+      // groupSharedFeedsByCategory(feeds);
+      
+      // For now, using empty data structure
+      groupSharedFeedsByCategory([]);
     } catch (err) {
       console.error(err);
     }
@@ -119,6 +132,39 @@ const Feed = () => {
     );
   };
 
+  const groupSharedFeedsByCategory = (feeds = []) => {
+    const baseGroups = Object.entries(categoryGroups).reduce(
+      (acc, [groupKey, group]) => {
+        acc[groupKey] = {
+          displayName: group.displayName,
+          items: [],
+        };
+        return acc;
+      },
+      {}
+    );
+
+    feeds.forEach((feed) => {
+      const matchedKey = Object.entries(categoryGroups).find(([, group]) =>
+        group.includes.includes(feed.category)
+      )?.[0] ?? "others";
+
+      if (!baseGroups[matchedKey]) {
+        baseGroups[matchedKey] = {
+          displayName: categoryGroups[matchedKey]?.displayName || "Other Items",
+          items: [],
+        };
+      }
+
+      baseGroups[matchedKey].items.push(feed);
+    });
+
+    setSharedFeeds(baseGroups);
+    setSelectedCategory((prev) =>
+      baseGroups[prev] ? prev : Object.keys(baseGroups)[0] ?? ""
+    );
+  };
+
   const handleDelete = async (itemId) => {
     
     try {
@@ -147,7 +193,14 @@ const Feed = () => {
 
   useEffect(() => {
     fetchFeed();
+    fetchSharedFeed();
   }, []);
+
+  const handleMainSectionChange = (section) => {
+    setMainSection(section);
+    setShowForm(false);
+    setSelectedCategory(Object.keys(categoryGroups)[0] ?? "");
+  };
 
   const handleCategoryClick = (categoryKey) => {
     setSelectedCategory(categoryKey);
@@ -162,31 +215,113 @@ const Feed = () => {
 
   return (
     <div className="flex h-screen bg-gray-950">
-      {/* Sidebar */}
-      <div className="w-56 bg-gradient-to-b from-gray-900 to-black border-r border-gray-800 p-3 flex flex-col">
-        <h2 className="text-lg font-bold text-white mb-4 px-2">Categories</h2>
+      {/* Main Section Sidebar */}
+      <div 
+        className={`bg-gradient-to-b from-gray-950 to-black border-r border-gray-800 flex flex-col transition-all duration-500 ease-in-out ${
+          isMainSidebarOpen ? 'w-48 p-3' : 'w-14 p-2'
+        }`}
+      >
+        <div className={`flex items-center mb-4 transition-all duration-300 ${isMainSidebarOpen ? 'justify-between' : 'justify-center'}`}>
+          {isMainSidebarOpen && <h2 className="text-lg font-bold text-white px-2">Feed</h2>}
+          <button
+            onClick={() => setIsMainSidebarOpen(!isMainSidebarOpen)}
+            className="text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300 p-2 rounded-md shadow-md hover:shadow-lg hover:scale-110 border border-gray-600 cursor-pointer"
+            title={isMainSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          >
+            {isMainSidebarOpen ? (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+          </button>
+        </div>
+        <nav className="space-y-2">
+          <button
+            onClick={() => handleMainSectionChange('saved')}
+            className={`w-full rounded-lg transition-all duration-300 flex items-center hover:scale-105 cursor-pointer ${
+              isMainSidebarOpen ? 'px-4 py-3 gap-3 text-left' : 'px-2 py-2.5 justify-center'
+            } ${
+              mainSection === 'saved'
+                ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-md'
+                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+            }`}
+            title="Saved Data"
+          >
+            <span className="text-xl">💾</span>
+            {isMainSidebarOpen && <span className="font-medium">Saved Data</span>}
+          </button>
+          <button
+            onClick={() => handleMainSectionChange('shared')}
+            className={`w-full rounded-lg transition-all duration-300 flex items-center hover:scale-105 cursor-pointer ${
+              isMainSidebarOpen ? 'px-4 py-3 gap-3 text-left' : 'px-2 py-2.5 justify-center'
+            } ${
+              mainSection === 'shared'
+                ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-md'
+                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+            }`}
+            title="Shared"
+          >
+            <span className="text-xl">🤝</span>
+            {isMainSidebarOpen && <span className="font-medium">Shared</span>}
+          </button>
+        </nav>
+      </div>
+
+      {/* Category Sidebar */}
+      <div 
+        className={`bg-gradient-to-b from-gray-900 to-black border-r border-gray-800 flex flex-col transition-all duration-500 ease-in-out ${
+          isCategorySidebarOpen ? 'w-56 p-3' : 'w-14 p-2'
+        }`}
+      >
+        <div className={`flex items-center mb-4 transition-all duration-300 ${isCategorySidebarOpen ? 'justify-between' : 'justify-center'}`}>
+          {isCategorySidebarOpen && <h2 className="text-lg font-bold text-white px-2">Categories</h2>}
+          <button
+            onClick={() => setIsCategorySidebarOpen(!isCategorySidebarOpen)}
+            className="text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300 p-2 rounded-md shadow-md hover:shadow-lg hover:scale-110 border border-gray-600 cursor-pointer"
+            title={isCategorySidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          >
+            {isCategorySidebarOpen ? (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+          </button>
+        </div>
         <nav className="flex-1 space-y-1.5">
-          {Object.entries(groupedFeeds).map(([key, group]) => (
+          {Object.entries(currentFeeds).map(([key, group]) => (
             <button
               key={key}
               onClick={() => handleCategoryClick(key)}
-              className={`w-full text-left px-3 py-2.5 rounded-lg transition-all duration-200 flex items-center justify-between group ${
+              className={`w-full rounded-lg transition-all duration-300 flex items-center group hover:scale-105 cursor-pointer ${
+                isCategorySidebarOpen ? 'px-3 py-2.5 text-left justify-between' : 'px-2 py-2.5 justify-center'
+              } ${
                 selectedCategory === key
                   ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-md'
                   : 'text-gray-400 hover:bg-gray-800 hover:text-white'
               }`}
+              title={group.displayName}
             >
-              <div className="flex items-center gap-2.5">
+              <div className={`flex items-center ${isCategorySidebarOpen ? 'gap-2.5' : ''}`}>
                 <span className="text-xl">{getCategoryIcon(key)}</span>
-                <span className="font-medium text-sm">{group.displayName}</span>
+                {isCategorySidebarOpen && <span className="font-medium text-sm">{group.displayName}</span>}
               </div>
-              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                selectedCategory === key
-                  ? 'bg-white text-green-600'
-                  : 'bg-gray-800 text-gray-400 group-hover:bg-gray-700'
-              }`}>
-                {group.items.length}
-              </span>
+              {isCategorySidebarOpen && (
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full transition-all duration-300 ${
+                  selectedCategory === key
+                    ? 'bg-white text-green-600'
+                    : 'bg-gray-800 text-gray-400 group-hover:bg-gray-700'
+                }`}>
+                  {group.items.length}
+                </span>
+              )}
             </button>
           ))}
         </nav>
@@ -200,10 +335,12 @@ const Feed = () => {
             <div>
               <h1 className="text-xl font-bold text-white flex items-center gap-2">
                 <span>{activeMeta.icon}</span>
-                {groupedFeeds[selectedCategory]?.displayName || "Your Feed"}
+                {mainSection === 'saved' ? 'Saved Data' : 'Shared Data'} - {currentFeeds[selectedCategory]?.displayName || "Your Feed"}
               </h1>
               <p className="text-sm text-gray-400 mt-1">
-                {activeMeta.description}
+                {mainSection === 'saved' 
+                  ? activeMeta.description 
+                  : 'Data shared with you by other users'}
               </p>
             </div>
 
@@ -212,54 +349,33 @@ const Feed = () => {
                 Total Items: <span className="font-semibold text-white">{totalItems}</span>
               </div>
 
-              <button
-                onClick={toggleForm}
-                className={`px-3 py-1.5 rounded-lg font-semibold text-sm transition shadow-md flex items-center gap-2 ${
-                  showForm
-                    ? "bg-red-600 hover:bg-red-500 text-white"
-                    : "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white"
-                }`}
-              >
-                {showForm ? (
-                  <>
-                    <span>✕</span>
-                    <span>Close</span>
-                  </>
-                ) : (
-                  <>
-                    <span>+</span>
-                    <span>Add Data</span>
-                  </>
-                )}
-              </button>
+              {mainSection === 'saved' && (
+                <button
+                  onClick={toggleForm}
+                  className={`px-3 py-1.5 rounded-lg font-semibold text-sm transition shadow-md flex items-center gap-2 ${
+                    showForm
+                      ? "bg-red-600 hover:bg-red-500 text-white"
+                      : "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white"
+                  }`}
+                >
+                  {showForm ? (
+                    <>
+                      <span>✕</span>
+                      <span>Close</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>+</span>
+                      <span>Add Data</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Summary Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-4">
-            {summaryCards.map((card) => (
-              <div
-                key={card.key}
-                onClick={() => handleCategoryClick(card.key)}
-                className={`cursor-pointer p-3 rounded-lg border ${
-                  selectedCategory === card.key
-                    ? "bg-gradient-to-r from-green-600/80 to-green-500/70 border-green-400 text-white"
-                    : "bg-gray-900 border-gray-800 text-gray-300 hover:bg-gray-800 hover:border-gray-700"
-                } transition`}
-              >
-                <div className="flex flex-col items-center">
-                  <span className="text-xl">{getCategoryIcon(card.key)}</span>
-                  <span className="text-sm font-medium mt-1">{card.label}</span>
-                  <span className="text-xs text-gray-400">
-                    {card.count} item{card.count !== 1 ? "s" : ""}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Add Form */}
-          {showForm && (
+          {/* Add Form - Only show for Saved Data */}
+          {showForm && mainSection === 'saved' && (
             <AddFeedForm
               onFeedAdded={() => {
                 fetchFeed();
@@ -272,15 +388,25 @@ const Feed = () => {
           {/* Empty State or Category Data */}
           {showEmptyState ? (
             <div className="text-center py-12 text-gray-500">
-              <p>No items found in this category yet.</p>
-              <p className="text-sm mt-1">Try adding some data to get started!</p>
+              {mainSection === 'shared' ? (
+                <>
+                  <p className="text-3xl mb-2">🤝</p>
+                  <p>No shared items in this category yet.</p>
+                  <p className="text-sm mt-1">Items shared with you will appear here.</p>
+                </>
+              ) : (
+                <>
+                  <p>No items found in this category yet.</p>
+                  <p className="text-sm mt-1">Try adding some data to get started!</p>
+                </>
+              )}
             </div>
           ) : (
             <FeedCategory
-              displayName={groupedFeeds[selectedCategory].displayName}
-              items={groupedFeeds[selectedCategory].items}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
+              displayName={currentFeeds[selectedCategory].displayName}
+              items={currentFeeds[selectedCategory].items}
+              onEdit={mainSection === 'saved' ? handleEdit : null}
+              onDelete={mainSection === 'saved' ? handleDelete : null}
             />
           )}
         </div>

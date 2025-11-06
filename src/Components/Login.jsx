@@ -7,8 +7,8 @@ import { addUser } from "../utils/userSlice";
 import { showToast } from "../utils/toastSlice";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailId, setEmailId] = useState("test@gmail.com");
+  const [password, setPassword] = useState("Test@1234");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const location = useLocation();
@@ -29,9 +29,14 @@ const Login = () => {
 
     try {
       const res = await axios.post(BASE_URL + "/login", { emailId, password }, { withCredentials: true });
-      dispatch(addUser(res?.data?.data));
+      const user = res?.data?.data;
+      dispatch(addUser(user));
       dispatch(showToast("Logged in Successfully"));
-      navigate("/feed");
+      
+      // Wait a bit for Redux to update before navigating
+      setTimeout(() => {
+        navigate("/feed");
+      }, 100);
     } catch (err) {
       setError(err?.response?.data?.error || err?.response?.data?.message || "Something went wrong");
     }
@@ -51,9 +56,14 @@ const Login = () => {
 
     try {
       const res = await axios.post(BASE_URL + "/signup", { firstName, lastName, emailId, password }, { withCredentials: true });
-      dispatch(addUser(res?.data?.data));
+      const user = res?.data?.data;
+      dispatch(addUser(user));
       dispatch(showToast("Account created Successfully"));
-      navigate("/profile");
+      
+      // Wait a bit for Redux to update before navigating
+      setTimeout(() => {
+        navigate("/feed");
+      }, 100);
     } catch (err) {
       setError(err?.response?.data?.error || err?.response?.data?.message || "Something went wrong");
     }

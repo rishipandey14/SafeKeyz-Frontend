@@ -53,18 +53,18 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="p-6 bg-gray-900 rounded-lg text-center">
             <p className="text-3xl font-bold">{stats.users}+</p>
-            <p className="text-gray-400">Many people use SafeKeyz for secure their password.</p>
+            <p className="text-gray-400">People uses SafeKeyz to secure their Credentials.</p>
           </div>
           <div className="p-6 bg-gray-900 rounded-lg text-center">
-            <p className="text-3xl font-bold">{stats.credentials}</p>
-            <p className="text-gray-400">Passwords safely stored and encrypted.</p>
+            <p className="text-3xl font-bold">{stats.credentials}+</p>
+            <p className="text-gray-400">Credentials safely stored and encrypted.</p>
           </div>
           <div className="p-6 bg-gray-900 rounded-lg text-center">
             <p className="text-3xl font-bold">100%</p>
             <p className="text-gray-400">Protection during fraud attempts.</p>
           </div>
           <div className="p-6 bg-gray-900 rounded-lg text-center">
-            <p className="text-3xl font-bold">{stats.devices}</p>
+            <p className="text-3xl font-bold">{stats.devices}+</p>
             <p className="text-gray-400">Devices synced with SafeKeyz.</p>
           </div>
         </div>

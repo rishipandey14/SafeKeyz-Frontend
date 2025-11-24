@@ -76,25 +76,13 @@ const Feed = () => {
       const res = await axios.get(BASE_URL + "/feed", {
         withCredentials: true,
       });
-      const feeds = res?.data?.feeds;
-      dispatch(addDataInFeed(feeds));
-      groupFeedsByCategory(feeds);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const fetchSharedFeed = async () => {
-    try {
-      // TODO: Replace with actual shared feed API endpoint
-      // const res = await axios.get(BASE_URL + "/feed/shared", {
-      //   withCredentials: true,
-      // });
-      // const feeds = res?.data?.feeds;
-      // groupSharedFeedsByCategory(feeds);
+      const ownedFeeds = res?.data?.ownedFeeds || [];
+      const sharedFeedsData = res?.data?.sharedFeeds || [];
       
-      // For now, using empty data structure
-      groupSharedFeedsByCategory([]);
+      
+      dispatch(addDataInFeed(ownedFeeds));
+      groupFeedsByCategory(ownedFeeds);
+      groupSharedFeedsByCategory(sharedFeedsData);
     } catch (err) {
       console.error(err);
     }
@@ -134,6 +122,7 @@ const Feed = () => {
   };
 
   const groupSharedFeedsByCategory = (feeds = []) => {
+    console.log("Grouping shared feeds:", feeds);
     const baseGroups = Object.entries(categoryGroups).reduce(
       (acc, [groupKey, group]) => {
         acc[groupKey] = {
@@ -160,6 +149,7 @@ const Feed = () => {
       baseGroups[matchedKey].items.push(feed);
     });
 
+    console.log("Shared feeds grouped:", baseGroups);
     setSharedFeeds(baseGroups);
     setSelectedCategory((prev) =>
       baseGroups[prev] ? prev : Object.keys(baseGroups)[0] ?? ""
@@ -194,7 +184,6 @@ const Feed = () => {
 
   useEffect(() => {
     fetchFeed();
-    fetchSharedFeed();
   }, []);
 
   const handleMainSectionChange = (section) => {

@@ -171,7 +171,7 @@ const Feed = () => {
 
   const handleEdit = async (updatedItem) => {
     try {
-      await axios.put(`${BASE_URL}/feed/${updatedItem._id}`, updatedItem, {
+      await axios.patch(`${BASE_URL}/feed/${updatedItem._id}`, updatedItem, {
         withCredentials: true,
       });
       dispatch(showToast("Feed updated successfully"));
@@ -180,7 +180,25 @@ const Feed = () => {
       console.error("Update failed", err);
       dispatch(showToast("Failed to update data"));
     }
-  }
+  };
+
+  const handleShare = async (shareData) => {
+    try {
+      await axios.post(`${BASE_URL}/give-access`, {
+        feedId: shareData.feedId,
+        email: shareData.recipientEmail,
+        permission: shareData.permission || "read"
+      }, {
+        withCredentials: true,
+      });
+      dispatch(showToast("Access granted successfully"));
+      fetchFeed();
+    } catch (err) {
+      console.error("Share failed", err);
+      dispatch(showToast("Failed to grant access"));
+      throw err;
+    }
+  };
 
   useEffect(() => {
     fetchFeed();
@@ -396,8 +414,10 @@ const Feed = () => {
             <FeedCategory
               displayName={currentFeeds[selectedCategory].displayName}
               items={currentFeeds[selectedCategory].items}
-              onEdit={mainSection === 'saved' ? handleEdit : null}
+              // Allow edit for owned items always; for shared items will be gated by permission inside FeedCard
+              onEdit={handleEdit}
               onDelete={mainSection === 'saved' ? handleDelete : null}
+              onShare={mainSection === 'saved' ? handleShare : null}
             />
           )}
         </div>

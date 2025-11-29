@@ -85,6 +85,14 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
       >
         {item.title}
       </h3>
+      {item?.owner && !item?.isOwner && (
+        <p className="mt-1 text-xs text-gray-400">
+          Shared by {item.owner.firstName} {item.owner.lastName}
+          {item?.sharedAt ? (
+            <span> · {new Date(item.sharedAt).toLocaleDateString()}</span>
+          ) : null}
+        </p>
+      )}
 
       <div
         ref={contentRef}

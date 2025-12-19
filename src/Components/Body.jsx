@@ -1,15 +1,22 @@
 import React from "react";
 import NavBar from "./NavBar";
+import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Body = () => {
+  const user = useSelector((store) => store?.user?.user);
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <NavBar /> {/* Optional */}
-      <main className="min-h-screen bg-gradient-to-r from-black via-gray-800 to-green-950 text-gray-200">
-        <Outlet /> {/* This renders Feed, Login, etc. */}
-      </main>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <NavBar />
+      <div className="flex flex-1">
+        {user && <Sidebar />}
+        <main className="flex-grow overflow-auto">
+          <Outlet />
+        </main>
+      </div>
       <Footer />
     </div>
   );

@@ -75,18 +75,27 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
 
   return (
     <div
-      className={`p-4 rounded-xl bg-gray-600 border text-white border-gray-700 shadow-md hover:shadow-lg transition-all duration-300 ease-in-out ${
-        isOpen ? "ring-1 ring-green-500" : ""
+      className={`p-5 rounded-2xl bg-white border text-gray-900 border-gray-200 shadow-md hover:shadow-lg hover:border-gray-300 transition-all duration-300 ease-in-out ${
+        isOpen ? "ring-2 ring-green-500/50" : ""
       }`}
     >
       <h3
-        className="font-semibold text-lg cursor-pointer text-green-200 hover:text-green-300 transition"
+        className="font-bold text-xl cursor-pointer text-gray-900 hover:text-green-600 transition flex items-center gap-2"
         onClick={toggleDetails}
       >
-        {item.title}
+        <span>{item.title}</span>
+        <svg 
+          className={`w-5 h-5 transition-transform text-gray-600 ${isOpen ? 'rotate-180' : ''}`}
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </h3>
       {item?.owner && !item?.isOwner && (
-        <p className="mt-1 text-xs text-gray-400">
+        <p className="mt-2 text-xs text-gray-600 flex items-center gap-1">
+          <span className="text-green-600">🤝</span>
           Shared by {item.owner.firstName} {item.owner.lastName}
           {item?.sharedAt ? (
             <span> · {new Date(item.sharedAt).toLocaleDateString()}</span>
@@ -105,35 +114,46 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
             : "0px",
         }}
       >
-        <div className="mt-3 space-y-3 text-sm">
+        <div className="mt-4 space-y-4 text-sm">
           {isEditing ? (
             // Show all category fields when editing
             getAllCategoryFields().map((key) => (
-              <div key={key} className="flex items-start gap-3">
-                <span className="font-medium capitalize text-gray-400 w-24 shrink-0">{key}:</span>
+              <div key={key} className="space-y-1">
+                <label className="block text-xs font-medium text-gray-700 uppercase tracking-wide">
+                  {key}
+                </label>
                 <input
                   type={key.toLowerCase().includes("password") ? "password" : "text"}
                   value={editedData[key] || ""}
                   onChange={(e) => handleInputChange(key, e.target.value)}
                   placeholder={`Enter ${key}`}
-                  className="bg-gray-900 text-white border border-gray-700 px-2 py-1 rounded w-full"
+                  className="w-full bg-white text-gray-900 border border-gray-300 px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
                 />
               </div>
             ))
           ) : (
             // Show only filled fields when viewing
             Object.entries(item.data).map(([key, value]) => (
-              <div key={key} className="flex items-start gap-3">
-                <span className="font-medium capitalize text-gray-400 w-24 shrink-0">{key}:</span>
-                <span className="break-all">{value}</span>
+              <div key={key} className="flex items-center justify-between gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group">
+                <div className="flex-1 min-w-0">
+                  <span className="block text-xs font-medium text-gray-700 uppercase tracking-wide mb-1">
+                    {key}
+                  </span>
+                  <span className="text-gray-900 break-all">{value}</span>
+                </div>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     handleCopy(value, key);
                   }}
-                  className="ml-auto text-purple-400 hover:text-purple-300 transition-colors"
+                  className="p-2 hover:bg-gray-200 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                  title="Copy to clipboard"
                 >
-                  {copiedKey === key ? "✓" : "📋"}
+                  {copiedKey === key ? (
+                    <span className="text-green-600">✓</span>
+                  ) : (
+                    <span className="text-gray-600">📋</span>
+                  )}
                 </button>
               </div>
             ))
@@ -147,7 +167,7 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                     e.stopPropagation();
                     handleSave();
                   }}
-                  className="text-green-400 hover:text-green-300"
+                  className="text-green-600 hover:text-green-700 font-medium"
                 >
                   ✅ Save
                 </button>
@@ -157,7 +177,7 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                     setIsEditing(false);
                     setEditedData({ ...item.data });
                   }}
-                  className="text-gray-400 hover:text-gray-300"
+                  className="text-gray-600 hover:text-gray-700 font-medium"
                 >
                   ❌ Cancel
                 </button>
@@ -170,7 +190,7 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                       e.stopPropagation();
                       setIsEditing(true);
                     }}
-                    className="text-blue-400 hover:text-blue-300"
+                    className="text-green-600 hover:text-green-700 font-medium"
                   >
                     ✏️ Edit
                   </button>
@@ -181,7 +201,7 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                       e.stopPropagation();
                       setIsSharePopupOpen(true);
                     }}
-                    className="text-green-400 hover:text-green-300"
+                    className="text-green-600 hover:text-green-700 font-medium"
                   >
                     🔗 Share
                   </button>
@@ -194,7 +214,7 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                         onDelete(item._id);
                       }
                     }}
-                    className="text-red-400 hover:text-red-300"
+                    className="text-red-600 hover:text-red-700 font-medium"
                   >
                     🗑️ Delete
                   </button>
@@ -208,21 +228,21 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
       {/* Share Popup Modal */}
       {isSharePopupOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
           onClick={() => setIsSharePopupOpen(false)}
         >
           <div 
-            className="bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-700 shadow-xl"
+            className="bg-white rounded-lg p-6 w-full max-w-md border border-gray-200 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-semibold text-green-400 mb-4">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Share "{item.title}"
             </h2>
             
             <div className="space-y-4">
               {/* Recipient Email */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Recipient Email *
                 </label>
                 <input
@@ -230,14 +250,14 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                   value={shareData.recipientEmail}
                   onChange={(e) => handleShareInputChange("recipientEmail", e.target.value)}
                   placeholder="recipient@example.com"
-                  className="w-full bg-gray-900 text-white border border-gray-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
                 />
               </div>
 
               {/* Recipient Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Recipient Name
                 </label>
                 <input
@@ -245,13 +265,13 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                   value={shareData.recipientName}
                   onChange={(e) => handleShareInputChange("recipientName", e.target.value)}
                   placeholder="John Doe"
-                  className="w-full bg-gray-900 text-white border border-gray-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
 
               {/* Message */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Message (Optional)
                 </label>
                 <textarea
@@ -259,35 +279,35 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
                   onChange={(e) => handleShareInputChange("message", e.target.value)}
                   placeholder="Add a message for the recipient..."
                   rows="3"
-                  className="w-full bg-gray-900 text-white border border-gray-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
+                  className="w-full bg-white text-gray-900 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500 resize-none"
                 />
               </div>
 
               {/* Permission */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Permission
                 </label>
                 <select
                   value={shareData.permission}
                   onChange={(e) => handleShareInputChange("permission", e.target.value)}
-                  className="w-full bg-gray-900 text-white border border-gray-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   <option value="read">Read</option>
                   <option value="write">Read and Write</option>
                 </select>
-                <p className="text-xs text-gray-400 mt-1">Write allows editing; Read restricts to viewing.</p>
+                <p className="text-xs text-gray-600 mt-1">Write allows editing; Read restricts to viewing.</p>
               </div>
 
               {/* Expiry Days */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-1">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
                   Access Expires In
                 </label>
                 <select
                   value={shareData.expiryDays}
                   onChange={(e) => handleShareInputChange("expiryDays", e.target.value)}
-                  className="w-full bg-gray-900 text-white border border-gray-700 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full bg-white text-gray-900 border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
                   <option value="1">1 Day</option>
                   <option value="3">3 Days</option>
@@ -304,13 +324,13 @@ const FeedCard = ({ item, onEdit, onDelete, onShare }) => {
               <button
                 onClick={handleShareSubmit}
                 disabled={!shareData.recipientEmail}
-                className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded transition-colors"
+                className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded transition-colors"
               >
                 Share
               </button>
               <button
                 onClick={() => setIsSharePopupOpen(false)}
-                className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded transition-colors"
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded transition-colors"
               >
                 Cancel
               </button>

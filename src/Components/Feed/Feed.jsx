@@ -223,18 +223,18 @@ const Feed = () => {
 
   return (
     <RequireAuth>
-    <div className="flex h-screen bg-gray-950">
+    <div className="flex h-screen bg-gray-50">
       {/* Main Section Sidebar */}
       <div 
-        className={`bg-gradient-to-b from-gray-950 to-black border-r border-gray-800 flex flex-col transition-all duration-500 ease-in-out ${
-          isMainSidebarOpen ? 'w-48 p-3' : 'w-14 p-2'
+        className={`bg-white border-r border-gray-200 flex flex-col transition-all duration-500 ease-in-out ${
+          isMainSidebarOpen ? 'w-56 p-4' : 'w-16 p-3'
         }`}
       >
-        <div className={`flex items-center mb-4 transition-all duration-300 ${isMainSidebarOpen ? 'justify-between' : 'justify-center'}`}>
-          {isMainSidebarOpen && <h2 className="text-lg font-bold text-white px-2">Feed</h2>}
+        <div className={`flex items-center mb-6 transition-all duration-300 ${isMainSidebarOpen ? 'justify-between' : 'justify-center'}`}>
+          {isMainSidebarOpen && <h2 className="text-xl font-bold text-gray-900">Vault</h2>}
           <button
             onClick={() => setIsMainSidebarOpen(!isMainSidebarOpen)}
-            className="text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300 p-2 rounded-md shadow-md hover:shadow-lg hover:scale-110 border border-gray-600 cursor-pointer"
+            className="text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-300 p-2 rounded-lg shadow-sm border border-gray-300 cursor-pointer"
             title={isMainSidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           >
             {isMainSidebarOpen ? (
@@ -251,46 +251,46 @@ const Feed = () => {
         <nav className="space-y-2">
           <button
             onClick={() => handleMainSectionChange('saved')}
-            className={`w-full rounded-lg transition-all duration-300 flex items-center hover:scale-105 cursor-pointer ${
-              isMainSidebarOpen ? 'px-4 py-3 gap-3 text-left' : 'px-2 py-2.5 justify-center'
+            className={`w-full rounded-xl transition-all duration-300 flex items-center cursor-pointer ${
+              isMainSidebarOpen ? 'px-4 py-3.5 gap-3 text-left' : 'px-3 py-3 justify-center'
             } ${
               mainSection === 'saved'
-                ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-md'
-                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                ? 'bg-green-50 text-green-600 border border-green-200'
+                : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent'
             }`}
             title="Saved Data"
           >
             <span className="text-xl">💾</span>
-            {isMainSidebarOpen && <span className="font-medium">Saved Data</span>}
+            {isMainSidebarOpen && <span className="font-semibold">Saved Data</span>}
           </button>
           <button
             onClick={() => handleMainSectionChange('shared')}
-            className={`w-full rounded-lg transition-all duration-300 flex items-center hover:scale-105 cursor-pointer ${
-              isMainSidebarOpen ? 'px-4 py-3 gap-3 text-left' : 'px-2 py-2.5 justify-center'
+            className={`w-full rounded-xl transition-all duration-300 flex items-center cursor-pointer ${
+              isMainSidebarOpen ? 'px-4 py-3.5 gap-3 text-left' : 'px-3 py-3 justify-center'
             } ${
               mainSection === 'shared'
-                ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-md'
-                : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                : 'text-gray-400 hover:bg-gray-800 hover:text-white border border-transparent'
             }`}
             title="Shared"
           >
             <span className="text-xl">🤝</span>
-            {isMainSidebarOpen && <span className="font-medium">Shared</span>}
+            {isMainSidebarOpen && <span className="font-semibold">Shared</span>}
           </button>
         </nav>
       </div>
 
       {/* Category Sidebar */}
       <div 
-        className={`bg-gradient-to-b from-gray-900 to-black border-r border-gray-800 flex flex-col transition-all duration-500 ease-in-out ${
-          isCategorySidebarOpen ? 'w-56 p-3' : 'w-14 p-2'
+        className={`bg-gray-50 border-r border-gray-200 flex flex-col transition-all duration-500 ease-in-out ${
+          isCategorySidebarOpen ? 'w-64 p-4' : 'w-16 p-3'
         }`}
       >
-        <div className={`flex items-center mb-4 transition-all duration-300 ${isCategorySidebarOpen ? 'justify-between' : 'justify-center'}`}>
-          {isCategorySidebarOpen && <h2 className="text-lg font-bold text-white px-2">Categories</h2>}
+        <div className={`flex items-center mb-6 transition-all duration-300 ${isCategorySidebarOpen ? 'justify-between' : 'justify-center'}`}>
+          {isCategorySidebarOpen && <h2 className="text-xl font-bold text-gray-900">Categories</h2>}
           <button
             onClick={() => setIsCategorySidebarOpen(!isCategorySidebarOpen)}
-            className="text-white bg-gray-800 hover:bg-gray-700 transition-all duration-300 p-2 rounded-md shadow-md hover:shadow-lg hover:scale-110 border border-gray-600 cursor-pointer"
+            className="text-gray-700 bg-gray-100 hover:bg-gray-200 transition-all duration-300 p-2 rounded-lg shadow-sm border border-gray-300 cursor-pointer"
             title={isCategorySidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
           >
             {isCategorySidebarOpen ? (
@@ -304,29 +304,29 @@ const Feed = () => {
             )}
           </button>
         </div>
-        <nav className="flex-1 space-y-1.5">
+        <nav className="flex-1 space-y-2 overflow-y-auto">
           {Object.entries(currentFeeds).map(([key, group]) => (
             <button
               key={key}
               onClick={() => handleCategoryClick(key)}
-              className={`w-full rounded-lg transition-all duration-300 flex items-center group hover:scale-105 cursor-pointer ${
-                isCategorySidebarOpen ? 'px-3 py-2.5 text-left justify-between' : 'px-2 py-2.5 justify-center'
+              className={`w-full rounded-xl transition-all duration-300 flex items-center group cursor-pointer ${
+                isCategorySidebarOpen ? 'px-3 py-3 text-left justify-between' : 'px-3 py-3 justify-center'
               } ${
                 selectedCategory === key
-                  ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-md'
-                  : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-green-50 text-green-600 border border-green-200'
+                  : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 border border-transparent'
               }`}
               title={group.displayName}
             >
-              <div className={`flex items-center ${isCategorySidebarOpen ? 'gap-2.5' : ''}`}>
+              <div className={`flex items-center ${isCategorySidebarOpen ? 'gap-3' : ''}`}>
                 <span className="text-xl">{getCategoryIcon(key)}</span>
-                {isCategorySidebarOpen && <span className="font-medium text-sm">{group.displayName}</span>}
+                {isCategorySidebarOpen && <span className="font-semibold text-sm">{group.displayName}</span>}
               </div>
               {isCategorySidebarOpen && (
-                <span className={`text-xs font-bold px-2 py-0.5 rounded-full transition-all duration-300 ${
+                <span className={`text-xs font-bold px-2.5 py-1 rounded-full transition-all duration-300 ${
                   selectedCategory === key
-                    ? 'bg-white text-green-600'
-                    : 'bg-gray-800 text-gray-400 group-hover:bg-gray-700'
+                    ? 'bg-green-600 text-white'
+                    : 'bg-gray-200 text-gray-700 group-hover:bg-gray-300'
                 }`}>
                   {group.items.length}
                 </span>
@@ -337,34 +337,40 @@ const Feed = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <div className="max-w-5xl mx-auto p-4">
+      <div className="flex-1 overflow-auto bg-white">
+        <div className="max-w-6xl mx-auto p-6">
           {/* Header Section */}
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-4 mb-4 shadow-lg flex items-center justify-between">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6 shadow-md flex items-center justify-between">
             <div>
-              <h1 className="text-xl font-bold text-white flex items-center gap-2">
-                <span>{activeMeta.icon}</span>
-                {mainSection === 'saved' ? 'Saved Data' : 'Shared Data'} - {currentFeeds[selectedCategory]?.displayName || "Your Feed"}
+              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="text-3xl">{activeMeta.icon}</span>
+                <div>
+                  <div>{mainSection === 'saved' ? 'Saved Data' : 'Shared Data'}</div>
+                  <div className="text-sm font-normal text-gray-600 mt-1">
+                    {currentFeeds[selectedCategory]?.displayName || "Your Vault"}
+                  </div>
+                </div>
               </h1>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-gray-600 mt-3">
                 {mainSection === 'saved' 
                   ? activeMeta.description 
                   : 'Data shared with you by other users'}
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="text-sm text-gray-300 bg-gray-800 px-3 py-1.5 rounded-lg">
-                Total Items: <span className="font-semibold text-white">{totalItems}</span>
+            <div className="flex items-center gap-4">
+              <div className="text-sm text-gray-700 bg-gray-100 px-4 py-2.5 rounded-xl border border-gray-200">
+                <span className="text-gray-600">Total: </span>
+                <span className="font-bold text-gray-900">{totalItems}</span>
               </div>
 
               {mainSection === 'saved' && (
                 <button
                   onClick={toggleForm}
-                  className={`px-3 py-1.5 rounded-lg font-semibold text-sm transition shadow-md flex items-center gap-2 ${
+                  className={`px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md flex items-center gap-2 ${
                     showForm
-                      ? "bg-red-600 hover:bg-red-500 text-white"
-                      : "bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white"
+                      ? "bg-red-600 hover:bg-red-700 text-white border border-red-600"
+                      : "bg-green-600 hover:bg-green-700 text-white border border-green-600"
                   }`}
                 >
                   {showForm ? (
@@ -396,7 +402,7 @@ const Feed = () => {
 
           {/* Empty State or Category Data */}
           {showEmptyState ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-600">
               {mainSection === 'shared' ? (
                 <>
                   <p className="text-3xl mb-2">🤝</p>

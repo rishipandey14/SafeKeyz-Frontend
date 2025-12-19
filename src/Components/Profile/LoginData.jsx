@@ -42,8 +42,8 @@ const LoginData = () => {
   }
 
   return (
-    <div className='bg-base-200 p-6 rounded-2xl shadow border border-base-300'>
-      <h2 className='text-2xl font-semibold text-primary mb-4'>Login Details</h2>
+    <div className='bg-white p-6 rounded-2xl shadow border border-gray-200'>
+      <h2 className='text-2xl font-semibold text-green-600 mb-4'>Login Details</h2>
       <form className='space-y-4' onSubmit={handleSubmit}>
         {/* Hidden email input for accessibility */}
         <input
@@ -57,7 +57,7 @@ const LoginData = () => {
 
         {/* Wrap existing password input and button in relative container */}
         <div className='relative w-1/2'>
-          <label htmlFor='currentPassword' className='text-sm text-gray-300 block mr-5 mb-1'>
+          <label htmlFor='currentPassword' className='text-sm text-gray-700 font-medium block mr-5 mb-1'>
             Current Password:
           </label>
           <input 
@@ -65,14 +65,14 @@ const LoginData = () => {
             type={showExistingPassword ? 'text' : 'password'} 
             autoComplete="current-password" 
             placeholder="Enter your Current Password" 
-            className='input input-bordered w-full pr-10'  // Add right padding for button
+            className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg w-full pr-10 focus:outline-none focus:ring-2 focus:ring-green-500'
             onChange={(e) => setExistingPassword(e.target.value)}
             value={existingPassword}
           />
           <button 
             type="button" 
             onClick={() => setShowExistingPassword(prev => !prev)} 
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 z-10"  // Center vertically + above input
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 z-10 hover:text-gray-900"
             aria-label={showExistingPassword ? "Hide password" : "Show password"}
             tabIndex={-1}
           >
@@ -83,7 +83,7 @@ const LoginData = () => {
         <div className='relative w-1/2'>
           <label
             htmlFor='newPassword'
-            className='text-sm text-gray-300 block mb-1'
+            className='text-sm text-gray-700 font-medium block mb-1'
           >
             New Password:
           </label>
@@ -92,14 +92,14 @@ const LoginData = () => {
             type={showNewPassword ? 'text' : 'password'}
             autoComplete='new-password'
             placeholder='Enter your New Password'
-            className='input input-bordered w-full pr-10'
+            className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg w-full pr-10 focus:outline-none focus:ring-2 focus:ring-green-500'
             onChange={(e) => setNewPassword(e.target.value)}
             value={newPassword}
           />
           <button
             type='button'
             onClick={() => setShowNewPassword((prev) => !prev)}
-            className='absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 z-10'
+            className='absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 z-10 hover:text-gray-900'
             aria-label={showNewPassword ? 'Hide password' : 'Show password'}
             tabIndex={-1}
           >
@@ -108,11 +108,11 @@ const LoginData = () => {
         </div>
 
         {errors && (
-          <p className='text-red-400 text-sm text-center'>{errors}</p>
+          <p className='text-red-600 text-sm text-center'>{errors}</p>
         )}
 
         <div className='flex justify-center'>
-          <button type="submit" className="btn btn-primary">Change Password</button>
+          <button type="submit" className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium">Change Password</button>
         </div>
       </form>
     </div>

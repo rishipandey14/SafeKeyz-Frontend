@@ -53,41 +53,41 @@ const General = () => {
   }
 
   return (
-    <div className='bg-gray-900 p-6 rounded-2xl shadow border border-base-300'>
-      <h2 className='flex justify-center text-2xl font-semibold text-white mb-6'>General Information</h2>
+    <div className='bg-white p-6 rounded-2xl shadow border border-gray-200'>
+      <h2 className='flex justify-center text-2xl font-semibold text-gray-900 mb-6'>General Information</h2>
       <form className='space-y-4' onSubmit={handleSubmit}>
         {/* Image uplaod and preview */}
         <div className='flex flex-col space-y-2'>
-          <label className='text-sm text-gray-300'>Paste a public image URL:</label>
+          <label className='text-sm text-gray-700 font-medium'>Paste a public image URL:</label>
           <input
             type='text'
             name='photoUrl'
             value={photoUrl}
             onChange={(e) => setPhotoUrl(e.target.value)}
             placeholder='https://example.com/photo.jpg'
-            className='input input-bordered w-full max-w-xs'
+            className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-green-500'
           />
           {photoUrl && (
             <img src={photoUrl} alt="preview" className='mt-2 w-20 h-20 rounded-full object-cover' />
           )}
         </div>
         <div >
-          <label htmlFor='firstName' className='text-sm text-gray-300 mr-5'>First Name : </label>
-          <input type="text" id='firstName' name='firstName' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className='input input-bordered w-1/2' />
+          <label htmlFor='firstName' className='text-sm text-gray-700 font-medium mr-5'>First Name : </label>
+          <input type="text" id='firstName' name='firstName' value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500' />
         </div>
         
         <div >
-          <label htmlFor='lastName' className='text-sm text-gray-300 mr-5'>Last Name : </label>
-          <input type="text" id='lastName' name='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className='input input-bordered w-1/2' />
+          <label htmlFor='lastName' className='text-sm text-gray-700 font-medium mr-5'>Last Name : </label>
+          <input type="text" id='lastName' name='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500' />
         </div>
 
         <div >
-          <label htmlFor='age' className='text-sm text-gray-300 mr-15'>Age : </label>
-          <input type="number" id='age' name='age' value={age} onChange={(e) => setAge(e.target.value)} placeholder="Enter Age" className='input input-bordered max-w-15' />
+          <label htmlFor='age' className='text-sm text-gray-700 font-medium mr-15'>Age : </label>
+          <input type="number" id='age' name='age' value={age} onChange={(e) => setAge(e.target.value)} placeholder="Enter Age" className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg max-w-15 focus:outline-none focus:ring-2 focus:ring-green-500' />
         </div>
         <div>
-          <label htmlFor='gender' className='text-sm text-gray-300 mr-10'>Gender : </label>
-          <select className='select select-bordered max-w-25' id='gender' name='gender' value={gender} onChange={(e) => setGender(e.target.value)}>
+          <label htmlFor='gender' className='text-sm text-gray-700 font-medium mr-10'>Gender : </label>
+          <select className='bg-gray-50 border border-gray-300 text-gray-900 px-4 py-2 rounded-lg max-w-25 focus:outline-none focus:ring-2 focus:ring-green-500' id='gender' name='gender' value={gender} onChange={(e) => setGender(e.target.value)}>
             <option value="">Select</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
@@ -95,10 +95,10 @@ const General = () => {
           </select>
         </div>
         {errors && (
-          <p className='text-red-400 test-sm text-center'>{errors}</p>
+          <p className='text-red-600 test-sm text-center'>{errors}</p>
         )}
         <div className='flex justify-center'>
-          <button type='submit' className="btn btn-primary" >Save Changes</button>
+          <button type='submit' className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium" >Save Changes</button>
         </div>
       </form>
     </div>

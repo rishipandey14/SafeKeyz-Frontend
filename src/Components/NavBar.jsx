@@ -32,7 +32,7 @@ const Navbar = () => {
         {/* Navigation */}
         <nav className="hidden md:flex gap-6 text-gray-700 text-sm">
           {/* Conditionally show Vault if logged in */}
-          {user && (
+          {/* {user && (
             <>
               <Link
                 className="hover:text-green-600 transition-colors duration-200 ease-in-out cursor-pointer px-2 py-1 rounded-md"
@@ -47,7 +47,7 @@ const Navbar = () => {
                 All Items
               </Link>
             </>
-          )}
+          )} */}
 
           {/* Dropdowns */}
           {['Pricing', 'Personal', 'Business'].map((label, idx) => (

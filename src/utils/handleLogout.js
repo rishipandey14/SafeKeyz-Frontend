@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import {BASE_URL} from "./constants";
-import {removeUser} from "./userSlice";
-import { showToast } from "./toastSlice";
+import {removeUser} from "../features/user/userSlice";
+import { showToast } from "../features/toast/toastSlice";
 
 export const handleLogout = async (dispatch, navigate) => {
   try {

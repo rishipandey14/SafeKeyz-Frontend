@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, Bell, Search } from 'lucide-react';
-import { useSelector, useDispatch } from 'react-redux';
-import {handleLogout} from "../utils/handleLogout";
-import { resetFeedState } from "../utils/feedSlice";
-import { resetUserState } from "../utils/userSlice";
-import LogoutPopup from './LogoutPopup';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ChevronDown, Bell, Search } from "lucide-react";
+import { useSelector, useDispatch } from "react-redux";
+import { handleLogout } from "../../utils/handleLogout";
+import { resetFeedState } from "../../features/feed/feedSlice";
+import { resetUserState } from "../../features/user/userSlice";
+import LogoutPopup from "../common/LogoutPopup";
 
 const Navbar = () => {
   const user = useSelector((store) => store?.user?.user);
   const [showPopup, setShowPopup] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,38 +17,17 @@ const Navbar = () => {
     handleLogout(dispatch, navigate);
     dispatch(resetFeedState());
     dispatch(resetUserState());
-  }
+  };
 
   return (
-    <header className="top-0 left-0 right-0 bg-white shadow-sm py-4 px-6 border-b border-gray-200 z-50">
+    <nav className="sticky top-0 left-0 right-0 bg-white shadow-md py-2 px-6 border-b border-gray-200 z-[100]">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="bg-green-600 p-2 rounded-full text-white font-bold text-xl">S</div>
           <Link to="/" className="text-lg font-semibold text-gray-900">SafeKeyz</Link>
         </div>
 
-        {/* Navigation */}
         <nav className="hidden md:flex gap-6 text-gray-700 text-sm">
-          {/* Conditionally show Vault if logged in */}
-          {/* {user && (
-            <>
-              <Link
-                className="hover:text-green-600 transition-colors duration-200 ease-in-out cursor-pointer px-2 py-1 rounded-md"
-                to="/vault"
-              >
-                Vault
-              </Link>
-              <Link
-                className="hover:text-green-600 transition-colors duration-200 ease-in-out cursor-pointer px-2 py-1 rounded-md"
-                to="/vault-items"
-              >
-                All Items
-              </Link>
-            </>
-          )} */}
-
-          {/* Dropdowns */}
           {['Pricing', 'Personal', 'Business'].map((label, idx) => (
             <div key={idx} className="relative group">
               <div className="flex flex-col">
@@ -57,7 +35,6 @@ const Navbar = () => {
                   {label} <ChevronDown size={16} />
                 </button>
 
-                {/* Dropdown */}
                 <div className="absolute top-full left-0 bg-white shadow-xl rounded-md py-2 w-44 z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 border border-gray-200">
                   {label === 'Pricing' && (
                     <>
@@ -91,13 +68,11 @@ const Navbar = () => {
             </div>
           ))}
 
-          {/* Static item */}
           <Link className="font-medium hover:text-green-600 transition-colors duration-200 ease-in-out cursor-pointer px-2 py-1 rounded-md" to="#">
             Partners
           </Link>
         </nav>
 
-        {/* Login / Auth Buttons */}
         <div className="flex gap-4 items-center">
           {!user ? (
             <Link
@@ -109,54 +84,34 @@ const Navbar = () => {
             </Link>
           ) : (
             <>
-              {/* Search Icon */}
               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Search">
                 <Search size={20} className="text-gray-600" />
               </button>
 
-              {/* Notification Icon */}
               <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative" title="Notifications">
                 <Bell size={20} className="text-gray-600" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
 
-              {/* User Avatar Dropdown */}
               <div className="relative group">
-                <button
-                  className="flex items-center justify-center"
-                >
+                <button className="flex items-center justify-center">
                   <div className="w-10 h-10 rounded-full ring-2 ring-green-300 ring-offset-2 ring-offset-white shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden">
-                    <img
-                      alt="User Avatar"
-                      src={user.photoUrl}
-                      className="object-cover w-full h-full"
-                    />
+                    <img alt="User Avatar" src={user.photoUrl} className="object-cover w-full h-full" />
                   </div>
                 </button>
-                <ul
-                  className="absolute top-full right-0 mt-2 w-60 bg-white shadow-xl rounded-lg py-2 z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 border border-gray-200"
-                >
+                <ul className="absolute top-full right-0 mt-2 w-60 bg-white shadow-xl rounded-lg py-2 z-50 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 border border-gray-200">
                   <li>
-                    <Link
-                      to="/profile"
-                      className="flex items-center gap-2 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg px-3 py-2 transition duration-200 block w-full"
-                    >
+                    <Link to="/profile" className="flex items-center gap-2 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg px-3 py-2 transition duration-200 block w-full">
                       My Profile
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/editprofile"
-                      className="flex items-center gap-2 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg px-3 py-2 transition duration-200 block w-full"
-                    >
+                    <Link to="/editprofile" className="flex items-center gap-2 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg px-3 py-2 transition duration-200 block w-full">
                       Edit Profile
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      to="/reportabug"
-                      className="flex items-center gap-2 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg px-3 py-2 transition duration-200 block w-full"
-                    >
+                    <Link to="/reportabug" className="flex items-center gap-2 hover:bg-green-50 text-gray-700 hover:text-green-600 rounded-lg px-3 py-2 transition duration-200 block w-full">
                       Report a Bug
                     </Link>
                   </li>
@@ -183,7 +138,7 @@ const Navbar = () => {
           onCancel={() => setShowPopup(false)}
         />
       )}
-    </header>
+    </nav>
   );
 };
 

@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../../utils/constants';
-import { showToast } from '../../utils/toastSlice';
+import { showToast } from '../../features/toast/toastSlice';
 import {handleLogout} from '../../utils/handleLogout';
 import { useNavigate } from 'react-router-dom';
-import { resetFeedState } from '../../utils/feedSlice';
-import { resetUserState } from '../../utils/userSlice';
+import { resetFeedState } from '../../features/feed/feedSlice';
+import { resetUserState } from '../../features/user/userSlice';
 
 const LoginData = () => {
   const user = useSelector((store) => store?.user?.user);

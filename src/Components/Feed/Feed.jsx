@@ -6,7 +6,7 @@ import { BASE_URL } from "../../utils/constants";
 import { useDispatch } from "react-redux";
 import { addDataInFeed } from "../../utils/feedSlice";
 import FeedCategory from "./FeedCategory";
-import { showToast } from "../../utils/toastSlice";
+import { showToast } from "../../features/toast/toastSlice";
 import { categoryGroups } from "./feedHelper";
 import AddFeedForm from "./AddFeedForm";
 

@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Body from "./Components/Body";
-import Login from "./Components/Login";
-import HomePage from "./Components/HomePage";
-import Toast from "./Components/Toast";
-import EditProfileDashboard from "./Components/Profile/EditProfileDashboard"
-import ProfileDashboard from "./Components/ProfileDashboard";
-import VaultDashboard from "./Components/VaultDashboard";
-import VaultItems from "./Components/VaultItems";
+import Body from "./components/layout/Body";
+import Login from "./components/auth/Login";
+import HomePage from "./components/home/HomePage";
+import Toast from "./components/ui/Toast";
+import EditProfileDashboard from "./components/profile/EditProfileDashboard";
+import ProfileDashboard from "./components/profile/ProfileDashboard";
+import VaultDashboard from "./components/vault/VaultDashboard";
+import VaultItems from "./components/vault/VaultItems";
 
 const App = () => {
   return (

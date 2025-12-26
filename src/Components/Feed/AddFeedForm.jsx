@@ -3,7 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { categoryFields, categoryGroups } from "./feedHelper";
 import { BASE_URL } from "../../utils/constants";
-import { showToast } from "../../utils/toastSlice";
+import { showToast } from "../../features/toast/toastSlice";
 
 const AddFeedForm = ({ onFeedAdded, preSelectedCategory }) => {
   const dispatch = useDispatch();

@@ -2,8 +2,8 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../../utils/constants';
-import { addUser } from '../../utils/userSlice';
-import { showToast } from '../../utils/toastSlice';
+import { addUser } from '../../features/user/userSlice';
+import { showToast } from '../../features/toast/toastSlice';
 
 const General = () => {
   const user = useSelector((store) => store?.user?.user);

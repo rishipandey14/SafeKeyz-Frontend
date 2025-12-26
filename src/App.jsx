@@ -7,6 +7,7 @@ import EditProfileDashboard from "./Components/profile/EditProfileDashboard";
 import ProfileDashboard from "./Components/profile/ProfileDashboard";
 import VaultDashboard from "./Components/vault/VaultDashboard";
 import VaultItems from "./Components/vault/VaultItems";
+import SharedDashboard from "./Components/shared/SharedDashboard";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/vault-items" element={<VaultItems />} />
             <Route path="/profile" element={<ProfileDashboard />} />
             <Route path="/editprofile" element={<EditProfileDashboard />} />
+            <Route path="/shared" element={<SharedDashboard />} />
             <Route path="/login" element={<Login />} />
           </Route>
         </Routes>

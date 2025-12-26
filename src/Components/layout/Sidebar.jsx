@@ -13,6 +13,7 @@ import {
   Shield,
   User,
   Briefcase,
+  Share2,
 } from "lucide-react";
 
 const Sidebar = () => {
@@ -92,6 +93,9 @@ const Sidebar = () => {
 
         <SectionTitle>Favorites</SectionTitle>
         <NavItem icon={Star} label="Favorites" path="/favorites" />
+
+        <SectionTitle>Sharing</SectionTitle>
+        <NavItem icon={Share2} label="Shared" path="/shared" />
 
         <SectionTitle>Watchtower</SectionTitle>
         <NavItem icon={Eye} label="Watchtower" path="/watchtower" />

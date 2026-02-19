@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import RequireAuth from "../common/RequireAuth";
 import { BASE_URL } from "../../utils/constants";
 import { useDispatch } from "react-redux";
-import { addDataInFeed } from "../../utils/feedSlice";
+import { addDataInFeed } from "../../features/feed/feedSlice";
 import FeedCategory from "./FeedCategory";
 import { showToast } from "../../features/toast/toastSlice";
 import { categoryGroups } from "./feedHelper";

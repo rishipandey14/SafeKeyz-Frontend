@@ -17,7 +17,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Body />}>
             <Route index element={<HomePage />} />
-            <Route path="/vault" element={<VaultDashboard />} />
+            {/* <Route path="/vault" element={<VaultDashboard />} /> */}
             <Route path="/vault-items" element={<VaultItems />} />
             <Route path="/profile" element={<ProfileDashboard />} />
             <Route path="/editprofile" element={<EditProfileDashboard />} />

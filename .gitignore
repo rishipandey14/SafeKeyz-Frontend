@@ -1,5 +1,14 @@
 # Logs
 .env
+.env.production
+.env.local
+
+# Security - SSH keys and certificates
+*.pem
+*.key
+*.crt
+*.cert
+
 logs
 *.log
 npm-debug.log*

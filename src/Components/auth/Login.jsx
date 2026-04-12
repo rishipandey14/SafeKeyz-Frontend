@@ -7,8 +7,8 @@ import { addUser } from "../../features/user/userSlice";
 import useToast from "../../hooks/useToast";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("test@gmail.com");
-  const [password, setPassword] = useState("Test@1234");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const location = useLocation();

@@ -43,6 +43,7 @@ const VaultItems = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedData, setEditedData] = useState({});
   const [isAddItemModalOpen, setIsAddItemModalOpen] = useState(false);
+  const [favoriteId, setFavoriteId] = useState(null);
 
   useEffect(() => {
     fetchItems();
@@ -71,6 +72,36 @@ const VaultItems = () => {
       filtered = filtered.filter((item) => item.title?.toLowerCase().includes(searchQuery.toLowerCase()) || item.category?.toLowerCase().includes(searchQuery.toLowerCase()));
     }
     setFilteredItems(filtered);
+  };
+
+  const addToFavourite = async (feedId) => {
+    try {
+      await axios.post(
+        `${BASE_URL}/favourite`,
+        { feedId },
+        { withCredentials: true }
+      );
+
+      setItems((prev) =>
+        prev.map((item) =>
+          item._id === feedId
+            ? {
+                ...item,
+                isFavourite: !item.isFavourite,
+              }
+            : item
+        )
+      );
+
+      if (selectedItem?._id === feedId) {
+        setSelectedItem((prev) => ({
+          ...prev,
+          isFavourite: !prev.isFavourite,
+        }));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleCopy = async (value, fieldName) => {
@@ -256,8 +287,19 @@ const VaultItems = () => {
                             </p>
                           </div>
                         </div>
-                        <button className={`p-2 ${categoryConfig.bgColor} hover:opacity-80 rounded-lg transition-all`}>
-                          <Star size={24} className={categoryConfig.textColor} />
+                        <button
+                          onClick={() => addToFavourite(selectedItem._id)}
+                          className={`p-2 ${categoryConfig.bgColor} hover:opacity-80 rounded-lg transition-all`}
+                        >
+                          <Star
+                            onClick={() => addToFavourite(selectedItem._id)}
+                            size={22}
+                            className={`cursor-pointer transition-all duration-200 ${
+                              selectedItem?.isFavourite
+                                ? "text-yellow-500 fill-yellow-500"
+                                : "text-gray-400 hover:text-yellow-500"
+                            }`}
+                          />
                         </button>
                       </div>
 

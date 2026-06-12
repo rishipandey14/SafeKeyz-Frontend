@@ -7,7 +7,8 @@ import EditProfileDashboard from "./Components/Profile/EditProfileDashboard";
 import ProfileDashboard from "./Components/Profile/ProfileDashboard";
 import VaultDashboard from "./Components/vault/VaultDashboard";
 import VaultItems from "./Components/vault/VaultItems";
-import SharedDashboard from "./Components/shared/SharedDashboard";
+import SharedDashboard from "./Components/pages/SharedDashboard";
+import Favorites from "./Components/pages/Favourites";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/editprofile" element={<EditProfileDashboard />} />
             <Route path="/shared" element={<SharedDashboard />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/favorites" element={<Favorites />} />
           </Route>
         </Routes>
       </BrowserRouter>
